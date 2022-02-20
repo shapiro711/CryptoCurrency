@@ -45,6 +45,7 @@
 		3F72D87B278F14C6006B08E8 /* BithumbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D87A278F14C6006B08E8 /* BithumbTests.swift */; };
 		3F72D885278F14C6006B08E8 /* BithumbUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D884278F14C6006B08E8 /* BithumbUITests.swift */; };
 		3F72D887278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */; };
+		3F74C8FC27C201BF00F6F440 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C8FB27C201BF00F6F440 /* Market.swift */; };
 		3FA0027027A6637900C20DE1 /* AssetsStatusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */; };
 		3FA0027227A6D35600C20DE1 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */; };
 		3FA0027427A6E01A00C20DE1 /* AppLifeCycleOserverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */; };
@@ -149,6 +150,7 @@
 		3F72D880278F14C6006B08E8 /* BithumbUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BithumbUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F72D884278F14C6006B08E8 /* BithumbUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbUITests.swift; sourceTree = "<group>"; };
 		3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F74C8FB27C201BF00F6F440 /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
 		3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsStatusHeaderView.swift; sourceTree = "<group>"; };
 		3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifeCycleOserverable.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				C9DA6B69279046C20021706D /* RestTransaction.swift */,
 				3F52C29A279067D900AE2082 /* Candlestick.swift */,
 				C9AC23D127906C1600A359FB /* AssetStatus.swift */,
+				3F74C8FB27C201BF00F6F440 /* Market.swift */,
 			);
 			path = Rest;
 			sourceTree = "<group>";
@@ -845,6 +848,7 @@
 				C9FF2587279A8D4300FFC876 /* ConnectionMessage.swift in Sources */,
 				3F648BF527A2E69D0019F93C /* TransactionSpreadsheetCell.swift in Sources */,
 				3F008FF22792999700356C3F /* RestEndPoint.swift in Sources */,
+				3F74C8FC27C201BF00F6F440 /* Market.swift in Sources */,
 				3F549FAA2799288300692C0A /* MessageFactory.swift in Sources */,
 				C951F24A27A0357300C99A14 /* ChartViewController.swift in Sources */,
 				3F72D868278F14C5006B08E8 /* TickerViewController.swift in Sources */,
