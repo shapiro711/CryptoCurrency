@@ -19,6 +19,80 @@ enum CriteriaOfChange: String {
     }
 }
 
+struct WebSocketTicker2 {
+    let type: String?
+    let symbol: String?
+    let openPrice: Double?
+    let highPrice: Double?
+    let lowPrice: Double?
+    let tradePirce: Double?
+    let previousDayClosingPrice: Double?
+    let change: String?
+    let changePrice: Double?
+    let signedChangePrice: Double?
+    let changeRate: Double?
+    let signedChangeRate: Double?
+    let tardeVolume: Double?
+    let accumulatedTransactionVolume: Double?
+    let accumulatedTransactionVolume24H: Double?
+    let accumulatedTransactionAmount: Double?
+    let accumulatedTransactionAmount24H: Double?
+    let currentTradeDate: String?
+    let currentTradeTime: String?
+    let tardeTimestamp: Double
+    let askBid: String?
+    let accmulatedAskVolume: Double?
+    let accmulatedBidVolume: Double?
+    let highestPrice52Week: Double?
+    let highestDate52Week: String?
+    let lowestPrice52Week: Double?
+    let lowestDate52Week: String?
+    let marketState: String?
+    let isTradingSuspended: Bool?
+    let delistingDate: Date?
+    let marketWraning: String?
+    let timeStamp: Double?
+    let streamType: String?
+}
+
+extension WebSocketTicker2 {
+    enum CodingKeys: String, CodingKey {
+        case type
+        case symbol = "code"
+        case openPrice = "opening_price"
+        case highPrice = "high_price"
+        case lowPrice = "low_price"
+        case tradePirce = "trade_price"
+        case previousDayClosingPrice = "prev_closing_price"
+        case change = "change"
+        case changePrice = "change_price"
+        case signedChangePrice = "signed_change_price"
+        case changeRate = "change_rate"
+        case signedChangeRate = "signed_change_rate"
+        case tardeVolume = "trade_volume"
+        case accumulatedTransactionVolume = "acc_trade_volume"
+        case accumulatedTransactionVolume24H = "acc_trade_volume_24h"
+        case accumulatedTransactionAmount = "acc_trade_price"
+        case accumulatedTransactionAmount24H = "acc_trade_price_24h"
+        case currentTradeDate = "trade_date"
+        case currentTradeTime = "trade_time"
+        case tardeTimestamp = "trade_timestamp"
+        case askBid = "ask_bid"
+        case accmulatedAskVolume = "acc_ask_volume"
+        case accmulatedBidVolume = "acc_bid_volume"
+        case highestPrice52Week = "highest_52_week_price"
+        case highestDate52Week = "highest_52_week_date"
+        case lowestPrice52Week = "lowest_52_week_price"
+        case lowestDate52Week = "lowest_52_week_date"
+        case marketState = "market_state"
+        case isTradingSuspended = "is_trading_suspended"
+        case delistingDate = "delisting_date"
+        case marketWraning = "market_warning"
+        case timeStamp = "timestamp"
+        case streamType = "stream_type"
+    }
+}
+
 struct WebSocketTicker {
     let symbol: String?
     let criteriaOfChange: CriteriaOfChange?
