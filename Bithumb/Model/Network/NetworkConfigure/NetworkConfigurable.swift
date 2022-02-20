@@ -13,6 +13,7 @@ protocol NetworkConfigurable {
 
 struct RestConfigure: NetworkConfigurable {
     let baseURLString = "https://api.bithumb.com"
+    //let baseURLString = "https://api.upbit.com"
 }
 
 struct WebSocketConfigure: NetworkConfigurable {

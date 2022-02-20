@@ -46,6 +46,8 @@
 		3F72D885278F14C6006B08E8 /* BithumbUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D884278F14C6006B08E8 /* BithumbUITests.swift */; };
 		3F72D887278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */; };
 		3F74C8FC27C201BF00F6F440 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C8FB27C201BF00F6F440 /* Market.swift */; };
+		3F74C8FE27C204E800F6F440 /* MarketListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C8FD27C204E800F6F440 /* MarketListRequest.swift */; };
+		3F74C90027C2089400F6F440 /* MarketListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C8FF27C2089400F6F440 /* MarketListDTO.swift */; };
 		3FA0027027A6637900C20DE1 /* AssetsStatusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */; };
 		3FA0027227A6D35600C20DE1 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */; };
 		3FA0027427A6E01A00C20DE1 /* AppLifeCycleOserverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */; };
@@ -151,6 +153,8 @@
 		3F72D884278F14C6006B08E8 /* BithumbUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbUITests.swift; sourceTree = "<group>"; };
 		3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3F74C8FB27C201BF00F6F440 /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
+		3F74C8FD27C204E800F6F440 /* MarketListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketListRequest.swift; sourceTree = "<group>"; };
+		3F74C8FF27C2089400F6F440 /* MarketListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketListDTO.swift; sourceTree = "<group>"; };
 		3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsStatusHeaderView.swift; sourceTree = "<group>"; };
 		3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifeCycleOserverable.swift; sourceTree = "<group>"; };
@@ -540,6 +544,7 @@
 				C9E59F282796F85A0093BD4A /* TransactionDTO.swift */,
 				3F47DB982796F94100DD3119 /* AssetStatusDTO.swift */,
 				C9E59F2A2796FE470093BD4A /* CandlestickDTO.swift */,
+				3F74C8FF27C2089400F6F440 /* MarketListDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -587,6 +592,7 @@
 				3F52C2A32791C54700AE2082 /* TransactionRequest.swift */,
 				C9E59ED52791C6A60093BD4A /* AssetsStatusRequest.swift */,
 				3F52C2A52791CD3C00AE2082 /* CandlestickRequest.swift */,
+				3F74C8FD27C204E800F6F440 /* MarketListRequest.swift */,
 			);
 			path = Rest;
 			sourceTree = "<group>";
@@ -876,6 +882,7 @@
 				3F52C29B279067D900AE2082 /* Candlestick.swift in Sources */,
 				C9DA6B6A279046C20021706D /* RestTransaction.swift in Sources */,
 				C9E59EE9279540A50093BD4A /* RestSessionManager.swift in Sources */,
+				3F74C90027C2089400F6F440 /* MarketListDTO.swift in Sources */,
 				C9123D4F27A65B170058EE16 /* TransactionAttributeSpreadSheetCell.swift in Sources */,
 				C951F24F27A039DF00C99A14 /* ExchangeDetailHeaderView.swift in Sources */,
 				3F72D864278F14C5006B08E8 /* AppDelegate.swift in Sources */,
@@ -895,6 +902,7 @@
 				3FA0027427A6E01A00C20DE1 /* AppLifeCycleOserverable.swift in Sources */,
 				C951F25527A117F300C99A14 /* OrderBookBidTableViewCell.swift in Sources */,
 				3F72D866278F14C5006B08E8 /* SceneDelegate.swift in Sources */,
+				3F74C8FE27C204E800F6F440 /* MarketListRequest.swift in Sources */,
 				3F52C2A22791C01C00AE2082 /* OrderBookRequest.swift in Sources */,
 				3F52C2A42791C54700AE2082 /* TransactionRequest.swift in Sources */,
 				C9E59EDC2791D20F0093BD4A /* RestTicker.swift in Sources */,

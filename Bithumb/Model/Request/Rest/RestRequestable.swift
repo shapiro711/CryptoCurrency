@@ -13,6 +13,7 @@ enum RequestType {
     case transaction
     case assetStatus
     case candlestick
+    case marketList
 }
 
 enum HTTPMethodType: String {
@@ -47,5 +48,6 @@ protocol RestRequestable {
 extension RestRequestable {
     var basicPath: String {
         return "/public"
+        //return "/v1"
     }
 }
