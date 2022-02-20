@@ -28,6 +28,8 @@ enum HTTPMethodType: String {
 }
 
 enum PathParameterType: Hashable {
+    case markets
+    case symbol
     case orderCurrency
     case paymentCurrency
     case chartIntervals
@@ -47,7 +49,6 @@ protocol RestRequestable {
 
 extension RestRequestable {
     var basicPath: String {
-        return "/public"
-        //return "/v1"
+        return "/v1"
     }
 }

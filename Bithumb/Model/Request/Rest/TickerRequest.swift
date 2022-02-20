@@ -8,8 +8,8 @@
 import Foundation
 
 enum TickerRequest {
-    case lookUpAll(paymentCurrency: String = "KRW")
-    case lookUp(orderCurrency: String = "BTC", paymentCurrency: String = "KRW")
+    case lookUpAll(symbols:[String] = [])
+    case lookUp(symbol: String = "KRW-BTC")
 }
 
 extension TickerRequest: RestRequestable {
@@ -31,28 +31,30 @@ extension TickerRequest: RestRequestable {
     }
     
     var pathParameters: [PathParameterType: String]? {
-        var params = [PathParameterType: String]()
+        return nil
+    }
+    
+    var queryParameters: [String: Any]? {
+        var params = [String: Any]()
         
         switch self {
-        case .lookUpAll(let paymentCurrency):
-            params[.orderCurrency] = "ALL"
-            params[.paymentCurrency] = paymentCurrency
-        case .lookUp(let orderCurrency, let paymentCurrency):
-            params[.orderCurrency] = orderCurrency
-            params[.paymentCurrency] = paymentCurrency
+        case .lookUpAll(let symbols):
+            var symbolsString = symbols.reduce("") { $0 + "," + $1}
+            if symbolsString.first == "," {
+                symbolsString.removeFirst()
+            }
+            params["markets"] = symbolsString
+        case .lookUp(let symbol):
+            params["markets"] = symbol
         }
         
         return params
     }
     
-    var queryParameters: [String: Any]? {
-        return nil
-    }
-    
     var parser: (Data) -> Result<[TickerDTO], RestError> {
         switch self {
         case .lookUpAll:
-            return parseAllTicker
+            return parseTicker
         case .lookUp:
             return parseTicker
         }
@@ -61,43 +63,13 @@ extension TickerRequest: RestRequestable {
 }
 
 extension TickerRequest {
-    private var paymentCurrency: String {
-        switch self {
-        case .lookUpAll(let paymentCurrency):
-            return paymentCurrency
-        case .lookUp(_, let paymentCurrency):
-            return paymentCurrency
-        }
-    }
-    
-    private var orderCurrency: String {
-        switch self {
-        case .lookUpAll:
-            return "ALL"
-        case .lookUp(let orderCurrency, _):
-            return orderCurrency
-        }
-    }
-    
-    private func parseAllTicker(from data: Data) ->  Result<[TickerDTO], RestError> {
-        let parsedResult = RestResponseData<RestTicker>.deserialize(data: data)
-        switch parsedResult {
-        case .success(let restTickers):
-            return .success(restTickers.map {
-                $0.value.toDomain(symbol: $0.key + "_" + paymentCurrency)
-            })
-        case .failure(let error):
-            return .failure(error)
-        }
-    }
-    
-    private func parseTicker(from data: Data) -> Result<[TickerDTO], RestError> {
-        let parsedResult = RestResponseData<RestTicker>.decode(data: data)
-        switch parsedResult {
-        case .success(let restTicker):
-            return .success([restTicker.toDomain(symbol: orderCurrency + "_" + paymentCurrency)])
-        case .failure(let error):
-            return .failure(error)
+    private func parseTicker(from data: Data) ->  Result<[TickerDTO], RestError> {
+        do {
+            let parsedResult = try JSONDecoder().decode([RestTicker].self, from: data)
+            let dto = parsedResult.map { $0.toDomain(symbol: $0.symbol ?? "") }
+            return .success(dto)
+        } catch  {
+            return .failure(.parsingFailed)
         }
     }
 }

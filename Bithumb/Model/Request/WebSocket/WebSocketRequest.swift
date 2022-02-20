@@ -11,16 +11,18 @@ enum WebSocketType {
     case bitumbPublic
     
     var path: String {
-        return "/pub"
+        //return "/pub"
+        return "/websocket"
     }
     
     var specificPath: String {
-        return "/ws"
+        //return "/ws"
+        return "v1"
     }
 }
 
 enum MessageType {
-    case ticker(symbols: [String], tickTypes: [CriteriaOfChange] = [.yesterdayMidnight])
+    case ticker(symbols: [String])
     case transaction(symbols: [String])
     case orderBookDepth(symbols: [String])
 }

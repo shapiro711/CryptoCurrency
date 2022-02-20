@@ -10,12 +10,12 @@ import Foundation
 struct MessageFactory {
     static func makeSubscriptionMessage(from messageType: MessageType) -> SubscriptionMessage {
         switch messageType {
-        case .ticker(let symbols, let tickTypes):
-            return SubscriptionMessage(type: "ticker", symbols: symbols, criteriaOfChange: tickTypes)
+        case .ticker(let symbols):
+            return SubscriptionMessage(type: "ticker", symbols: symbols, isOnlySnapshot: nil)
         case .transaction(let symbols):
-            return SubscriptionMessage(type: "transaction", symbols: symbols, criteriaOfChange: nil)
+            return SubscriptionMessage(type: "transaction", symbols: symbols, isOnlySnapshot: nil)
         case .orderBookDepth(let symbols):
-            return SubscriptionMessage(type: "orderbookdepth", symbols: symbols, criteriaOfChange: nil)
+            return SubscriptionMessage(type: "orderbookdepth", symbols: symbols, isOnlySnapshot: nil)
         }
     }
 }

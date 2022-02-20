@@ -149,7 +149,7 @@ extension ExchangeDetailViewController {
             return
         }
         
-        let tickerRequest = TickerRequest.lookUp(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+        let tickerRequest = TickerRequest.lookUp(symbol: symbol)
         repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
             case .success(let tickers):

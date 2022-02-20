@@ -8,5 +8,5 @@
 import Foundation
 
 struct MarketListDTO: DataTransferable {
-    let symbols: String
+    let symbol: String
 }

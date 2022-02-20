@@ -19,7 +19,7 @@ enum CriteriaOfChange: String {
     }
 }
 
-struct WebSocketTicker2 {
+struct WebSocketTicker: Decodable {
     let type: String?
     let symbol: String?
     let openPrice: Double?
@@ -55,7 +55,7 @@ struct WebSocketTicker2 {
     let streamType: String?
 }
 
-extension WebSocketTicker2 {
+extension WebSocketTicker {
     enum CodingKeys: String, CodingKey {
         case type
         case symbol = "code"
@@ -92,79 +92,79 @@ extension WebSocketTicker2 {
         case streamType = "stream_type"
     }
 }
+//
+//struct WebSocketTicker {
+//    let symbol: String?
+//    let criteriaOfChange: CriteriaOfChange?
+//    let day: String?
+//    let time: String?
+//    let openPrice: Double?
+//    let closePrice: Double?
+//    let lowPrice: Double?
+//    let highPrice: Double?
+//    let accumulatedTransactionAmount: Double?
+//    let accumulatedTransactionVolume: Double?
+//    let accumulatedSellVolume: Double?
+//    let accumulatedBuyVolume: Double?
+//    let previousDayClosingPrice: Double?
+//    let rateOfChange: Double?
+//    let amountOfChange: Double?
+//    let volumePower: Double?
+//
+//    var date: Date? {
+//        guard let day = day, let time = time else {
+//            return nil
+//        }
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyyMMddHHmmss"
+//        return dateFormatter.date(from: day + time)
+//    }
+//}
 
-struct WebSocketTicker {
-    let symbol: String?
-    let criteriaOfChange: CriteriaOfChange?
-    let day: String?
-    let time: String?
-    let openPrice: Double?
-    let closePrice: Double?
-    let lowPrice: Double?
-    let highPrice: Double?
-    let accumulatedTransactionAmount: Double?
-    let accumulatedTransactionVolume: Double?
-    let accumulatedSellVolume: Double?
-    let accumulatedBuyVolume: Double?
-    let previousDayClosingPrice: Double?
-    let rateOfChange: Double?
-    let amountOfChange: Double?
-    let volumePower: Double?
-    
-    var date: Date? {
-        guard let day = day, let time = time else {
-            return nil
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmmss"
-        return dateFormatter.date(from: day + time)
-    }
-}
-
-extension WebSocketTicker: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case symbol, time, lowPrice, highPrice, volumePower
-        case criteriaOfChange = "tickType"
-        case day = "date"
-        case openPrice = "openPrice"
-        case closePrice = "closePrice"
-        case accumulatedTransactionAmount = "value"
-        case accumulatedTransactionVolume = "volume"
-        case accumulatedSellVolume = "sellVolume"
-        case accumulatedBuyVolume = "buyVolume"
-        case previousDayClosingPrice = "prevClosePrice"
-        case rateOfChange = "chgRate"
-        case amountOfChange = "chgAmt"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        symbol = try? values.decode(String.self, forKey: .symbol)
-        criteriaOfChange = try? CriteriaOfChange(rawValue: values.decode(String.self, forKey: .criteriaOfChange))
-        day = try? values.decode(String.self, forKey: .day)
-        time = try? values.decode(String.self, forKey: .time)
-        openPrice = try? Double(values.decode(String.self, forKey: .openPrice))
-        closePrice = try? Double(values.decode(String.self, forKey: .closePrice))
-        lowPrice = try? Double(values.decode(String.self, forKey: .lowPrice))
-        highPrice = try? Double(values.decode(String.self, forKey: .highPrice))
-        accumulatedTransactionAmount = try? Double(values.decode(String.self, forKey: .accumulatedTransactionAmount))
-        accumulatedTransactionVolume = try? Double(values.decode(String.self, forKey: .accumulatedTransactionVolume))
-        accumulatedSellVolume = try? Double(values.decode(String.self, forKey: .accumulatedSellVolume))
-        accumulatedBuyVolume = try? Double(values.decode(String.self, forKey: .accumulatedBuyVolume))
-        previousDayClosingPrice = try? Double(values.decode(String.self, forKey: .previousDayClosingPrice))
-        rateOfChange = try? Double(values.decode(String.self, forKey: .rateOfChange))
-        amountOfChange = try? Double(values.decode(String.self, forKey: .amountOfChange))
-        volumePower = try? Double(values.decode(String.self, forKey: .volumePower))
-    }
-}
+//extension WebSocketTicker: Decodable {
+//    enum CodingKeys: String, CodingKey {
+//        case symbol, time, lowPrice, highPrice, volumePower
+//        case criteriaOfChange = "tickType"
+//        case day = "date"
+//        case openPrice = "openPrice"
+//        case closePrice = "closePrice"
+//        case accumulatedTransactionAmount = "value"
+//        case accumulatedTransactionVolume = "volume"
+//        case accumulatedSellVolume = "sellVolume"
+//        case accumulatedBuyVolume = "buyVolume"
+//        case previousDayClosingPrice = "prevClosePrice"
+//        case rateOfChange = "chgRate"
+//        case amountOfChange = "chgAmt"
+//    }
+//
+//    init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        symbol = try? values.decode(String.self, forKey: .symbol)
+//        criteriaOfChange = try? CriteriaOfChange(rawValue: values.decode(String.self, forKey: .criteriaOfChange))
+//        day = try? values.decode(String.self, forKey: .day)
+//        time = try? values.decode(String.self, forKey: .time)
+//        openPrice = try? Double(values.decode(String.self, forKey: .openPrice))
+//        closePrice = try? Double(values.decode(String.self, forKey: .closePrice))
+//        lowPrice = try? Double(values.decode(String.self, forKey: .lowPrice))
+//        highPrice = try? Double(values.decode(String.self, forKey: .highPrice))
+//        accumulatedTransactionAmount = try? Double(values.decode(String.self, forKey: .accumulatedTransactionAmount))
+//        accumulatedTransactionVolume = try? Double(values.decode(String.self, forKey: .accumulatedTransactionVolume))
+//        accumulatedSellVolume = try? Double(values.decode(String.self, forKey: .accumulatedSellVolume))
+//        accumulatedBuyVolume = try? Double(values.decode(String.self, forKey: .accumulatedBuyVolume))
+//        previousDayClosingPrice = try? Double(values.decode(String.self, forKey: .previousDayClosingPrice))
+//        rateOfChange = try? Double(values.decode(String.self, forKey: .rateOfChange))
+//        amountOfChange = try? Double(values.decode(String.self, forKey: .amountOfChange))
+//        volumePower = try? Double(values.decode(String.self, forKey: .volumePower))
+//    }
+//}
 
 //MARK: - Convert To DTO
 extension WebSocketTicker {
     func toDomain() -> TickerDTO {
-        return TickerDTO(symbol: symbol, data: .init(currentPrice: closePrice,
-                                                     rateOfChange: rateOfChange,
-                                                     amountOfChange: amountOfChange,
+        return TickerDTO(symbol: symbol, data: .init(currentPrice: tradePirce,
+                                                     rateOfChange: changeRate,
+                                                     amountOfChange: changePrice,
                                                      accumulatedTransactionAmount: accumulatedTransactionAmount,
                                                      previousDayClosingPrice: previousDayClosingPrice))
     }

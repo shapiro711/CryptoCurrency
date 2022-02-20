@@ -15,6 +15,8 @@ final class TickerViewController: UIViewController {
     private let repository: Repositoryable = Repository()
     private let tickerTableViewDataSource = TickerTableViewDataSource()
     private var tickerCriteria: TickerCriteria = .krw
+    private var krwMarketList: [String] = []
+    private var btcMarkestList: [String] = []
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -26,14 +28,14 @@ final class TickerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        requestRestTickerAPI()
+        requestMarketList()
         activityIndicator.startAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeObserver()
-        repository.execute(request: .disconnect)
+        //repository.execute(request: .disconnect)
     }
     
     func register(tickerCriteria: TickerCriteria) {
@@ -52,8 +54,33 @@ extension TickerViewController {
 
 //MARK: - Network
 extension TickerViewController {
-    private func requestRestTickerAPI() {
-        let tickerRequest = tickerCriteria.reqeustBasedOnCriteria
+    private func requestMarketList() {
+        let marketListRequest = MarketListRequest.lookUpAllMarketList
+        repository.execute(request: marketListRequest) { [weak self] result in
+            switch result {
+            case .success(let marketListDTOs):
+                let symbols = marketListDTOs.map{ $0.symbol }
+                symbols.forEach {
+                    if $0.contains("KRW") {
+                        self?.krwMarketList.append($0)
+                    } else {
+                        self?.btcMarkestList.append($0)
+                    }
+                }
+               
+                self?.requestAllRestTickerAPI()
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
+    private func requestAllRestTickerAPI() {
+        var tickerRequest = TickerRequest.lookUpAll(symbols: krwMarketList)
+        if tickerCriteria == .btc {
+            tickerRequest = TickerRequest.lookUpAll(symbols: btcMarkestList)
+        }
+        
         repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
             case .success(var tickers):
@@ -65,8 +92,8 @@ extension TickerViewController {
                     self?.activityIndicator.stopAnimating()
                     self?.tickerTableView.reloadData()
                 }
-                let symbols = tickers.compactMap { $0.symbol }
-                self?.requestWebSocketTickerAPI(symbols: symbols)
+                //let symbols = tickers.compactMap { $0.symbol }
+                //self?.requestWebSocketTickerAPI(symbols: symbols)
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
@@ -110,7 +137,7 @@ extension TickerViewController: WebSocketDelegate {
 //MARK: - Conform to AppLifeCycleOserverable
 extension TickerViewController: AppLifeCycleOserverable {
     func receiveForegoundNotification() {
-        requestRestTickerAPI()
+        requestMarketList()
     }
     
     func receiveBackgroundNotification() {

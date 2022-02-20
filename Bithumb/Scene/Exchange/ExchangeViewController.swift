@@ -12,16 +12,7 @@ enum TickerCriteria: String {
     case krw = "KRW"
     case btc = "BTC"
     case popularity = "인기"
-    
-    var reqeustBasedOnCriteria: TickerRequest {
-        switch self {
-        case .krw, .btc:
-            return TickerRequest.lookUpAll(paymentCurrency: self.rawValue)
-        case .popularity:
-            return TickerRequest.lookUpAll(paymentCurrency: "KRW")
-        }
-    }
-    
+
     var title: String {
         return self.rawValue
     }

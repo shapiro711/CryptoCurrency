@@ -92,7 +92,7 @@ extension FavoriteTickerViewController {
                 return nil
             }
             
-            return TickerRequest.lookUp(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
+            return TickerRequest.lookUp(symbol: symbol)
         }
         
         tickerRequests.forEach {

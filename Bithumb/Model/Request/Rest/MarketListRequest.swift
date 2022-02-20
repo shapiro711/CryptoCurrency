@@ -44,8 +44,8 @@ extension MarketListRequest: RestRequestable {
 extension MarketListRequest {
     private func parseMarketList(from data: Data) -> Result<[MarketListDTO], RestError> {
         do {
-            let result = try JSONDecoder().decode([Market].self, from: data)
-            let dto = result.map { MarketListDTO(symbols: $0.symbol) }
+            let parsedresult = try JSONDecoder().decode([Market].self, from: data)
+            let dto = parsedresult.map { MarketListDTO(symbol: $0.symbol) }
             return .success(dto)
         } catch  {
             return .failure(.parsingFailed)

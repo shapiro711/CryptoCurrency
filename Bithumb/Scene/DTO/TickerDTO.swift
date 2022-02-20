@@ -12,10 +12,10 @@ struct TickerDTO: DataTransferable {
     let data: TickerData
     
     struct TickerData {
-        let currentPrice: Double?
-        let rateOfChange: Double?
-        let amountOfChange: Double?
-        let accumulatedTransactionAmount: Double?
+        let currentPrice: Double? //현재가
+        let rateOfChange: Double? //전일대비 등락률
+        let amountOfChange: Double? //전일대비 변동량
+        let accumulatedTransactionAmount: Double? // 최근 24시간 거래대금
         let previousDayClosingPrice: Double?
     }
     
@@ -31,7 +31,7 @@ struct TickerDTO: DataTransferable {
             return .hypen
         }
         
-        let currencies = symbol.split(separator: "_").map { String($0) }
+        let currencies = symbol.split(separator: "-").map { String($0) }
         guard let orderCurrency = currencies.first,
               let koreanName = CryptoCurrency.coinBook[orderCurrency] else {
                   return symbol.replacingOccurrences(of: String.underScore, with: String.slash)
@@ -45,7 +45,7 @@ struct TickerDTO: DataTransferable {
                   return .hypen
               }
         let numberFormatter = NumberFormatter()
-        if symbol.hasSuffix("KRW") {
+        if symbol.contains("KRW") {
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumFractionDigits = 2
         } else {
@@ -62,7 +62,7 @@ struct TickerDTO: DataTransferable {
         numberFormatter.maximumFractionDigits = 2
         
         guard let rateOfChange = data.rateOfChange,
-              let formattedRateOfChange = numberFormatter.string(from: NSNumber(value: rateOfChange/100)) else {
+              let formattedRateOfChange = numberFormatter.string(from: NSNumber(value: rateOfChange)) else {
                   return "0.00%"
               }
         
@@ -74,7 +74,7 @@ struct TickerDTO: DataTransferable {
         numberFormatter.maximumFractionDigits = 4
         
         guard let symbol = symbol,
-              symbol.hasSuffix("KRW"),
+              symbol.contains("KRW"),
               let amountOfChange = data.amountOfChange,
               let formattedAmountOfChange = numberFormatter.string(from: NSNumber(value: amountOfChange)) else {
                   return ""
@@ -84,7 +84,8 @@ struct TickerDTO: DataTransferable {
     }
     var formattedAccurateFluctuation: String {
         guard let symbol = symbol,
-              symbol.hasSuffix("BTC"),
+              symbol.contains("BTC"),
+              symbol != "KRW-BTC",
               let amountOfChange = data.amountOfChange else {
                   return formattedAmountOfChange
               }
@@ -105,7 +106,7 @@ struct TickerDTO: DataTransferable {
         let numberFormatter = NumberFormatter()
         var currency = ""
         
-        if symbol.hasSuffix("KRW") {
+        if symbol.contains("KRW") {
             accumulatedTransactionAmount /= 1000000
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumFractionDigits = 0
