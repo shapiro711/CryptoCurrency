@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum ApiType {
+    case bithumb
+    case upbit
+}
+
 enum RequestType {
     case ticker
     case orderBook
@@ -36,6 +41,7 @@ enum PathParameterType: Hashable {
 protocol RestRequestable {
     associatedtype TargetDTO: DataTransferable
     
+    var apiType: ApiType { get }
     var requestType: RequestType { get }
     var basicPath: String { get }
     var specificPath: String { get }
@@ -46,7 +52,16 @@ protocol RestRequestable {
 }
 
 extension RestRequestable {
+    var apiType: ApiType {
+        return .upbit
+    }
+    
     var basicPath: String {
-        return "/public"
+        switch apiType {
+        case .bithumb:
+            return "/public"
+        case .upbit:
+            return "/v1"
+        }
     }
 }

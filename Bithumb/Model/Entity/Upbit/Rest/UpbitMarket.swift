@@ -20,3 +20,12 @@ extension UpbitMarket: Decodable {
         case englishName = "english_name"
     }
 }
+
+//MARK: - Convert To DTO
+extension UpbitMarket {
+    func toDomain() -> MarketDTO {
+        return MarketDTO(market: market,
+                         koreanName: koreanName,
+                         englishName: englishName)
+    }
+}

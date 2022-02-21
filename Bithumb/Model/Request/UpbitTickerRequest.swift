@@ -18,7 +18,7 @@ extension UpbitTickerRequest: RestRequestable {
     }
     
     var specificPath: String {
-        return "/v1/ticker"
+        return "/ticker"
     }
     
     var httpMethod: HTTPMethodType {
@@ -31,7 +31,11 @@ extension UpbitTickerRequest: RestRequestable {
     }
     
     var pathParameters: [PathParameterType: String]? {
-        var params = [PathParameterType: String]()
+        return nil
+    }
+    
+    var queryParameters: [String: Any]? {
+        var params = [String: Any]()
         
         switch self {
         case .lookUpAll(let marketList):
@@ -39,16 +43,12 @@ extension UpbitTickerRequest: RestRequestable {
             if marketListString.first == "," {
                 marketListString.removeFirst()
             }
-            params[.upbitMarket] = marketListString
+            params["markets"] = marketListString
         case .lookUp(let market):
-            params[.upbitMarket] = market
+            params["markets"] = market
         }
         
         return params
-    }
-    
-    var queryParameters: [String: Any]? {
-        return nil
     }
     
     var parser: (Data) -> Result<[TickerDTO], RestError> {

@@ -15,6 +15,7 @@ final class TickerViewController: UIViewController {
     private let repository: Repositoryable = Repository()
     private let tickerTableViewDataSource = TickerTableViewDataSource()
     private var tickerCriteria: TickerCriteria = .krw
+    private var marketList: [MarketDTO] = []
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -26,7 +27,7 @@ final class TickerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        requestRestTickerAPI()
+        requestMarketList()
         activityIndicator.startAnimating()
     }
     
@@ -52,8 +53,25 @@ extension TickerViewController {
 
 //MARK: - Network
 extension TickerViewController {
+    private func requestMarketList() {
+        let marketRequest = UpbitMarketRequest.lookUpAll
+        repository.execute(request: marketRequest) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            
+            switch result {
+            case .success(let markets):
+                self.marketList = markets.sorted(by: self.tickerCriteria)
+                self.requestRestTickerAPI()
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
     private func requestRestTickerAPI() {
-        let tickerRequest = tickerCriteria.reqeustBasedOnCriteria
+        let tickerRequest = UpbitTickerRequest.lookUpAll(marketList: marketList.map {$0.market})
         repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
             case .success(var tickers):
@@ -65,8 +83,8 @@ extension TickerViewController {
                     self?.activityIndicator.stopAnimating()
                     self?.tickerTableView.reloadData()
                 }
-                let symbols = tickers.compactMap { $0.symbol }
-                self?.requestWebSocketTickerAPI(symbols: symbols)
+//                let symbols = tickers.compactMap { $0.symbol }
+//                self?.requestWebSocketTickerAPI(symbols: symbols)
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
