@@ -23,7 +23,7 @@ struct UpbitRestTicker {
     let date: Double?
 }
 
-extension UpbitTicker: Decodable {
+extension UpbitRestTicker: Decodable {
     enum CodingKeys: String, CodingKey {
         case market
         case openPrice = "opening_price"

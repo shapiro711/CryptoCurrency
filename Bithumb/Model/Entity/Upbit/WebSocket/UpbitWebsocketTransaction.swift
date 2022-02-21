@@ -1,5 +1,5 @@
 //
-//  UpbitTransaction.swift
+//  UpbitWebsocketTransaction.swift
 //  Bithumb
 //
 //  Created by Kim Do hyung on 2022/02/21.

@@ -25,7 +25,7 @@ struct UpbitRestOrderBook {
     }
 }
 
-extension UpbitOrderBook: Decodable {
+extension UpbitRestOrderBook: Decodable {
     enum CodingKeys: String, CodingKey {
         case data = "orderbook_units"
     }
