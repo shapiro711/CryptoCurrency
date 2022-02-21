@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpbitOrderBook {
+struct UpbitRestOrderBook {
     let data: [OrderData]
     
     struct OrderData: Decodable {
