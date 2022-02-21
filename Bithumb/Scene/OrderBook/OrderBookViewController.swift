@@ -90,6 +90,10 @@ extension OrderBookViewController {
 }
 
 extension OrderBookViewController: WebSocketDelegate {
+    func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
+        return
+    }
+    
     func didReceive(_ connectionEvent: WebSocketConnectionEvent) {
         UIAlertController.showAlert(about: connectionEvent, on: self)
     }

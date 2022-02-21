@@ -73,22 +73,32 @@ extension TickerViewController {
     private func requestRestTickerAPI() {
         let tickerRequest = UpbitTickerRequest.lookUpAll(marketList: marketList.map {$0.market})
         repository.execute(request: tickerRequest) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            
             switch result {
             case .success(var tickers):
-                if self?.tickerCriteria == .popularity {
+                if self.tickerCriteria == .popularity {
                     tickers.sort { $0.data.accumulatedTransactionAmount ?? 0 > $1.data.accumulatedTransactionAmount ?? 0 }
                 }
-                self?.tickerTableViewDataSource.configure(tickers: tickers)
+                self.tickerTableViewDataSource.configure(tickers: tickers)
                 DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    self?.tickerTableView.reloadData()
+                    self.activityIndicator.stopAnimating()
+                    self.tickerTableView.reloadData()
                 }
 //                let symbols = tickers.compactMap { $0.symbol }
-//                self?.requestWebSocketTickerAPI(symbols: symbols)
+//                self.requestWebSocketTickerAPI(symbols: symbols)
+                self.requestWebSocketTickerAPI(marketList: self.marketList.map { $0.market })
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
         }
+    }
+    
+    private func requestWebSocketTickerAPI(marketList: [String]) {
+        repository.execute(request: .connect(target: .upbitPublic))
+        repository.execute(request: .send(message: .upibtTicker(markets: marketList)))
     }
     
     private func requestWebSocketTickerAPI(symbols: [String]) {
@@ -98,6 +108,20 @@ extension TickerViewController {
 }
 
 extension TickerViewController: WebSocketDelegate {
+    func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
+        switch upbitMessageEvent {
+        case .ticker(let tickerDTO):
+            guard let index = tickerTableViewDataSource.update(by: tickerDTO) else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.tickerTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        default:
+            break
+        }
+    }
+    
     func didReceive(_ connectionEvent: WebSocketConnectionEvent) {
         UIAlertController.showAlert(about: connectionEvent, on: self)
     }

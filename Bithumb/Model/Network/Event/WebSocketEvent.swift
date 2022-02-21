@@ -33,6 +33,13 @@ enum WebSocketResponseMessage {
     case unsupported
 }
 
+enum WebSocketUpbitResponseMessage {
+    case ticker(TickerDTO)
+    case orderBook(OrderBookDepthDTO)
+    case transaction([TransactionDTO])
+    case unsupported
+}
+
 enum WebSocketMessageError: Error {
     case sendingFailed(Error)
     case receivingFailed(Error)

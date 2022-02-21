@@ -9,23 +9,35 @@ import Foundation
 
 struct UpbitWebsocketTicker {
     let market: String
-    var tickType: String = "24H"
-    let accumulatedTradeValue: Double
     let signedChangeRate: Double
     let signedChangepPrice: Double
-    let accumulatedTransactionVolume24Hours: Double
+    let accumulatedTransactionValue: Double
+    let accumulatedTransactionVolume: Double
     let change: String
-    let tradePrice: Double
+    let currentPrice: Double
+    let previousDayClosingPrice: Double
 }
 
 extension UpbitWebsocketTicker: Decodable {
     enum CodingKeys: String, CodingKey {
-        case tickType, change
+        case change
         case market = "code"
-        case accumulatedTradeValue = "acc_trade_price_24h"
         case signedChangeRate = "signed_change_rate"
         case signedChangepPrice = "signed_change_price"
-        case accumulatedTransactionVolume24Hours = "acc_trade_volume_24h"
-        case tradePrice = "trade_price"
+        case accumulatedTransactionValue = "acc_trade_price"
+        case accumulatedTransactionVolume = "acc_trade_volume"
+        case currentPrice = "trade_price"
+        case previousDayClosingPrice = "prev_closing_price"
+    }
+}
+
+//MARK: - Convert To DTO
+extension UpbitWebsocketTicker {
+    func toDomain() -> TickerDTO {
+        return TickerDTO(symbol: market, data: .init(currentPrice: currentPrice,
+                                                     rateOfChange: signedChangeRate,
+                                                     amountOfChange: signedChangepPrice,
+                                                     accumulatedTransactionAmount: accumulatedTransactionValue,
+                                                     previousDayClosingPrice: previousDayClosingPrice))
     }
 }

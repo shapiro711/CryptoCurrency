@@ -9,13 +9,24 @@ import Foundation
 
 enum WebSocketType {
     case bitumbPublic
+    case upbitPublic
     
     var path: String {
-        return "/pub"
+        switch self {
+        case .bitumbPublic:
+            return "/pub"
+        case .upbitPublic:
+            return "/websocket"
+        }
     }
     
     var specificPath: String {
-        return "/ws"
+        switch self {
+        case .bitumbPublic:
+            return "/ws"
+        case .upbitPublic:
+            return "/v1"
+        }
     }
 }
 
@@ -23,6 +34,7 @@ enum MessageType {
     case ticker(symbols: [String], tickTypes: [CriteriaOfChange] = [.yesterdayMidnight])
     case transaction(symbols: [String])
     case orderBookDepth(symbols: [String])
+    case upibtTicker(markets: [String])
 }
 
 enum WebSocketRequest {

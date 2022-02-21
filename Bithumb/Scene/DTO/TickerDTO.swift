@@ -31,13 +31,25 @@ struct TickerDTO: DataTransferable {
             return .hypen
         }
         
-        let currencies = symbol.split(separator: "_").map { String($0) }
-        guard let orderCurrency = currencies.first,
-              let koreanName = CryptoCurrency.coinBook[orderCurrency] else {
-                  return symbol.replacingOccurrences(of: String.underScore, with: String.slash)
-              }
+        var currencies: [String] = []
+        var coinName: String = ""
         
-        return koreanName
+        if symbol.contains("-") {
+            currencies = symbol.split(separator: "-").map { String($0) }
+            guard let orderCurrency = currencies.last else {
+               return symbol
+            }
+            coinName = orderCurrency
+        } else {
+            currencies = symbol.split(separator: "_").map { String($0) }
+            guard let orderCurrency = currencies.first else {
+                      return symbol
+                  }
+            coinName = orderCurrency
+        }
+        
+        let koreanName = CryptoCurrency.coinBook[coinName]
+        return koreanName ?? symbol
     }
     var formattedCurrentPrice: String {
         guard let currentPrice = data.currentPrice,

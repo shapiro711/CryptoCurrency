@@ -9,6 +9,7 @@ import Foundation
 
 enum MessageParsingResult {
     case connectionEstablished
+    case upibtmessage(WebSocketUpbitResponseMessage)
     case message(WebSocketResponseMessage)
     case subscription(WebSocketSubscriptionEvent)
     case error(WebSocketCommonError)
@@ -28,6 +29,8 @@ struct WebSocketMessageHandler {
             } else {
                 return .message(.unsupported)
             }
+        case .data(let data):
+            return decodeUpbitData(form: data)
         default:
             return .message(.unsupported)
         }
@@ -45,6 +48,23 @@ struct WebSocketMessageHandler {
                 return .connectionEstablished
             default:
                 return .message(.unsupported)
+            }
+        } catch {
+            return .error(.decodingFailed)
+        }
+    }
+    
+    private static func decodeUpbitData(form data: Data) -> MessageParsingResult {
+        guard let stringData = String(data: data, encoding: .utf8) else {
+            return .error(.decodingFailed)
+        }
+    
+        do {
+            if stringData.contains("ticker") {
+                let tickerEntity = try JSONDecoder().decode(UpbitWebsocketTicker.self, from: data)
+                return .upibtmessage(.ticker(tickerEntity.toDomain()))
+            } else {
+                return .error(.urlGeneration)
             }
         } catch {
             return .error(.decodingFailed)

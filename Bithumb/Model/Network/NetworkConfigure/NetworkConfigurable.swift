@@ -17,5 +17,6 @@ struct RestConfigure: NetworkConfigurable {
 }
 
 struct WebSocketConfigure: NetworkConfigurable {
-    let baseURLString = "wss://pubwss.bithumb.com"
+//    let baseURLString = "wss://pubwss.bithumb.com"
+    let baseURLString = "wss://api.upbit.com"
 }

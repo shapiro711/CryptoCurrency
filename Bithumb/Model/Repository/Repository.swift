@@ -21,6 +21,7 @@ protocol WebSocketDelegate: AnyObject {
     func didReceive(_ messageEvent: WebSocketResponseMessage)
     func didReceive(_ subscriptionEvent: WebSocketSubscriptionEvent)
     func didReceive(_ error: WebSocketCommonError)
+    func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage)
 }
 
 final class Repository: Repositoryable {
@@ -101,4 +102,9 @@ extension Repository: WebSocketServiceDelegate {
     func didReceive(_ error: WebSocketCommonError) {
         delegate?.didReceive(error)
     }
+    
+    func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
+        delegate?.didReceive(upbitMessageEvent)
+    }
+    
 }

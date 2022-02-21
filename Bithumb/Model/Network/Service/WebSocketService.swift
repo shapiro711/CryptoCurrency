@@ -12,6 +12,7 @@ protocol WebSocketServiceDelegate: AnyObject {
     func didReceive(_ messageEvent: WebSocketResponseMessage)
     func didReceive(_ subscriptionEvent: WebSocketSubscriptionEvent)
     func didReceive(_ error: WebSocketCommonError)
+    func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage)
 }
 
 final class WebSocketService: WebSocketServiceable {
@@ -90,6 +91,8 @@ extension WebSocketService: WebSocketSessionDelegate {
             delegate?.didReceive(subsctiprionEvent)
         case .connectionEstablished:
             delegate?.didReceive(.connectedSuccessfully)
+        case .upibtmessage(let messageEvent):
+            delegate?.didReceive(messageEvent)
         }
     }
 }
