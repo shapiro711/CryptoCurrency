@@ -40,3 +40,24 @@ extension UpbitRestTicker: Decodable {
         case date = "timestamp"
     }
 }
+
+//MARK: - Convert To DTO
+extension UpbitRestTicker {
+    func toDomain() -> TickerDTO {
+        var rateOfChange: Double? = nil
+        var amountOfChange: Double? = nil
+        
+        if let previousDayClosingPrice = previousClosingPrice,
+           let closePrice = closePrice,
+           previousDayClosingPrice != 0 {
+            rateOfChange = (closePrice / previousDayClosingPrice) - 1
+            amountOfChange = closePrice - previousDayClosingPrice
+        }
+        
+        return TickerDTO(symbol: market, data: .init(currentPrice: closePrice,
+                                                     rateOfChange: signedChangepPrice,
+                                                     amountOfChange: signedChangeRate,
+                                                     accumulatedTransactionAmount: accumulatedTransactionAmount,
+                                                     previousDayClosingPrice: previousClosingPrice))
+    }
+}
