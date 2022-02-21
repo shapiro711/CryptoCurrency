@@ -45,6 +45,10 @@
 		3F72D87B278F14C6006B08E8 /* BithumbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D87A278F14C6006B08E8 /* BithumbTests.swift */; };
 		3F72D885278F14C6006B08E8 /* BithumbUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D884278F14C6006B08E8 /* BithumbUITests.swift */; };
 		3F72D887278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */; };
+		3F74C90327C35CFD00F6F440 /* UpbitMarket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C90227C35CFD00F6F440 /* UpbitMarket.swift */; };
+		3F74C90527C35D4C00F6F440 /* UpbitTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C90427C35D4C00F6F440 /* UpbitTicker.swift */; };
+		3F74C90727C35E9B00F6F440 /* UpbitOrderBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C90627C35E9B00F6F440 /* UpbitOrderBook.swift */; };
+		3F74C90927C35F1800F6F440 /* UpbitSubscriptionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C90827C35F1800F6F440 /* UpbitSubscriptionMessage.swift */; };
 		3FA0027027A6637900C20DE1 /* AssetsStatusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */; };
 		3FA0027227A6D35600C20DE1 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */; };
 		3FA0027427A6E01A00C20DE1 /* AppLifeCycleOserverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */; };
@@ -149,6 +153,10 @@
 		3F72D880278F14C6006B08E8 /* BithumbUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BithumbUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F72D884278F14C6006B08E8 /* BithumbUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbUITests.swift; sourceTree = "<group>"; };
 		3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BithumbUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F74C90227C35CFD00F6F440 /* UpbitMarket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitMarket.swift; sourceTree = "<group>"; };
+		3F74C90427C35D4C00F6F440 /* UpbitTicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitTicker.swift; sourceTree = "<group>"; };
+		3F74C90627C35E9B00F6F440 /* UpbitOrderBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitOrderBook.swift; sourceTree = "<group>"; };
+		3F74C90827C35F1800F6F440 /* UpbitSubscriptionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitSubscriptionMessage.swift; sourceTree = "<group>"; };
 		3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsStatusHeaderView.swift; sourceTree = "<group>"; };
 		3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifeCycleOserverable.swift; sourceTree = "<group>"; };
@@ -277,6 +285,7 @@
 				3F52C2982790055000AE2082 /* WebSocketTransaction.swift */,
 				3F52C2A72791DC7E00AE2082 /* SubscriptionMessage.swift */,
 				C9FF2586279A8D4300FFC876 /* ConnectionMessage.swift */,
+				3F74C90827C35F1800F6F440 /* UpbitSubscriptionMessage.swift */,
 			);
 			path = WebSocket;
 			sourceTree = "<group>";
@@ -363,6 +372,7 @@
 		3F52C29E27918C4800AE2082 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				3F74C90127C35CE300F6F440 /* Upbit */,
 				3F008FFE279342B600356C3F /* Rest */,
 				3F008FFF279342BD00356C3F /* WebSocket */,
 			);
@@ -439,6 +449,16 @@
 				3F72D886278F14C6006B08E8 /* BithumbUITestsLaunchTests.swift */,
 			);
 			path = BithumbUITests;
+			sourceTree = "<group>";
+		};
+		3F74C90127C35CE300F6F440 /* Upbit */ = {
+			isa = PBXGroup;
+			children = (
+				3F74C90227C35CFD00F6F440 /* UpbitMarket.swift */,
+				3F74C90427C35D4C00F6F440 /* UpbitTicker.swift */,
+				3F74C90627C35E9B00F6F440 /* UpbitOrderBook.swift */,
+			);
+			path = Upbit;
 			sourceTree = "<group>";
 		};
 		3FA0027527A6F89400C20DE1 /* Resource */ = {
@@ -870,6 +890,7 @@
 				3F6ACBB227A8224F00B41C8C /* UIAlertController+Extension.swift in Sources */,
 				3F648BF127A277B30019F93C /* String+Extension.swift in Sources */,
 				3F52C29B279067D900AE2082 /* Candlestick.swift in Sources */,
+				3F74C90727C35E9B00F6F440 /* UpbitOrderBook.swift in Sources */,
 				C9DA6B6A279046C20021706D /* RestTransaction.swift in Sources */,
 				C9E59EE9279540A50093BD4A /* RestSessionManager.swift in Sources */,
 				C9123D4F27A65B170058EE16 /* TransactionAttributeSpreadSheetCell.swift in Sources */,
@@ -878,8 +899,10 @@
 				C9DA6B66278FF1700021706D /* WebSocketOrderBook.swift in Sources */,
 				3F58DD75279DC4A5002DE43D /* TickerTableViewCell.swift in Sources */,
 				3F008FF4279299FF00356C3F /* WebSocketEndPoint.swift in Sources */,
+				3F74C90927C35F1800F6F440 /* UpbitSubscriptionMessage.swift in Sources */,
 				C9E59ED227918EA80093BD4A /* RestRequestable.swift in Sources */,
 				3F58DD73279D8ED9002DE43D /* RestError.swift in Sources */,
+				3F74C90327C35CFD00F6F440 /* UpbitMarket.swift in Sources */,
 				C9E59F2E279708730093BD4A /* RestResponseData.swift in Sources */,
 				3F52C2A02791918600AE2082 /* TickerRequest.swift in Sources */,
 				C9FF258C279DB7A300FFC876 /* TickerTableViewDataSource.swift in Sources */,
@@ -888,6 +911,7 @@
 				C9AB327927A3D1A2003FA78E /* AssetsStatusTableViewDataSource.swift in Sources */,
 				C9E59F272796E5CF0093BD4A /* TickerDTO.swift in Sources */,
 				3FA0027227A6D35600C20DE1 /* Notification+Extension.swift in Sources */,
+				3F74C90527C35D4C00F6F440 /* UpbitTicker.swift in Sources */,
 				3FA0027427A6E01A00C20DE1 /* AppLifeCycleOserverable.swift in Sources */,
 				C951F25527A117F300C99A14 /* OrderBookBidTableViewCell.swift in Sources */,
 				3F72D866278F14C5006B08E8 /* SceneDelegate.swift in Sources */,
