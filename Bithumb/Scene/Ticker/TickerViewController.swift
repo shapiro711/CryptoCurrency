@@ -16,6 +16,8 @@ final class TickerViewController: UIViewController {
     private let tickerTableViewDataSource = TickerTableViewDataSource()
     private var tickerCriteria: TickerCriteria = .krw
     private var marketList: [MarketDTO] = []
+    private var apiType: ApiType = .upbit
+    private var isViewDisplay = false
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -26,6 +28,7 @@ final class TickerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        isViewDisplay = true
         registerObserver()
         requestMarketList()
         activityIndicator.startAnimating()
@@ -33,6 +36,7 @@ final class TickerViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        isViewDisplay = false
         removeObserver()
         repository.execute(request: .disconnect)
     }
@@ -55,7 +59,7 @@ extension TickerViewController {
 extension TickerViewController {
     private func requestMarketList() {
         let marketRequest = UpbitMarketRequest.lookUpAll
-        repository.execute(request: marketRequest) { [weak self] result in
+        repository.execute(request: marketRequest, api: apiType) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -63,7 +67,7 @@ extension TickerViewController {
             switch result {
             case .success(let markets):
                 self.marketList = markets.sorted(by: self.tickerCriteria)
-                self.requestRestTickerAPI()
+                self.requestUpbitRestTickerAPI()
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
@@ -71,8 +75,29 @@ extension TickerViewController {
     }
     
     private func requestRestTickerAPI() {
+        let tickerRequest = tickerCriteria.reqeustBasedOnCriteria
+        repository.execute(request: tickerRequest, api: apiType) { [weak self] result in
+            switch result {
+            case .success(var tickers):
+                if self?.tickerCriteria == .popularity {
+                    tickers.sort { $0.data.accumulatedTransactionAmount ?? 0 > $1.data.accumulatedTransactionAmount ?? 0 }
+                }
+                self?.tickerTableViewDataSource.configure(tickers: tickers)
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                    self?.tickerTableView.reloadData()
+                }
+                let symbols = tickers.compactMap { $0.symbol }
+//                self?.requestWebSocketTickerAPI(symbols: symbols)
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
+    private func requestUpbitRestTickerAPI() {
         let tickerRequest = UpbitTickerRequest.lookUpAll(marketList: marketList.map {$0.market})
-        repository.execute(request: tickerRequest) { [weak self] result in
+        repository.execute(request: tickerRequest, api: .upbit) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -87,8 +112,6 @@ extension TickerViewController {
                     self.activityIndicator.stopAnimating()
                     self.tickerTableView.reloadData()
                 }
-//                let symbols = tickers.compactMap { $0.symbol }
-//                self.requestWebSocketTickerAPI(symbols: symbols)
                 self.requestUpbitWebSocketTickerAPI(marketList: self.marketList.map { $0.market })
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
@@ -191,5 +214,25 @@ extension TickerViewController: UITableViewDelegate {
         let trend = tickerTableViewDataSource.bringTrend(by: indexPath.row)
         cell.sparkle(by: trend)
         tickerTableViewDataSource.resetTrend(by: indexPath.row)
+    }
+}
+
+//MARK: - Conform to ChagneAPIObservable
+extension TickerViewController: changeAPIObserverable {
+    func didRecive(apiType: ApiType) {
+        switch apiType {
+        case .bithumb:
+            self.apiType = .bithumb
+            if isViewDisplay {
+                repository.execute(request: .disconnect)
+                requestRestTickerAPI()
+            }
+        case .upbit:
+            self.apiType = .upbit
+            if isViewDisplay {
+                repository.execute(request: .disconnect)
+                requestMarketList()
+            }
+        }
     }
 }

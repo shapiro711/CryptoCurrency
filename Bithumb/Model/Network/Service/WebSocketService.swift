@@ -56,7 +56,7 @@ final class WebSocketService: WebSocketServiceable {
     }
     
     private func generateURL(endPoint: WebSocketEndPointable) throws -> URL {
-        let baseURL = networkConfigure.baseURLString
+        let baseURL = "wss://api.upbit.com"
         let fullPath = baseURL + endPoint.path
         guard let url = URL(string: fullPath) else {
             throw WebSocketCommonError.urlGeneration

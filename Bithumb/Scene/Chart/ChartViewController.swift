@@ -85,7 +85,7 @@ extension ChartViewController {
         
         let candlestickRequest = UpbitCandlestickReqeust.lookUp(market: symbol, charIntervals: chartInterval)
         
-        repository.execute(request: candlestickRequest) { [weak self] result in
+        repository.execute(request: candlestickRequest, api: .upbit) { [weak self] result in
             switch result {
             case .success(let candlesticks):
                 self?.drawCandlestickChart(by: candlesticks, chartInterval: chartInterval)
@@ -112,7 +112,7 @@ extension ChartViewController {
         }
         
         let candlestickRequest = CandlestickRequest.lookUp(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency, chartIntervals: chartInterval)
-        repository.execute(request: candlestickRequest) { [weak self] result in
+        repository.execute(request: candlestickRequest, api: .upbit) { [weak self] result in
             switch result {
             case .success(let candlesticks):
                 self?.drawCandlestickChart(by: candlesticks, chartInterval: chartInterval)

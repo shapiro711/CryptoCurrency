@@ -19,9 +19,9 @@ struct RestService: RestServiceable {
         self.sessionManager = sessionMaanger
     }
     
-    func request(endPoint: RestEndPointable, completion: @escaping (Result<Data, RestError>) -> Void) {
+    func request(endPoint: RestEndPointable, api: ApiType, completion: @escaping (Result<Data, RestError>) -> Void) {
         do {
-            let urlRequest = try generateURLRequest(endPoint: endPoint)
+            let urlRequest = try generateURLRequest(endPoint: endPoint, api: api)
             sessionManager.request(urlRequest: urlRequest) { data, response, error in
                 if let error = error {
                     return completion(.failure(.undefined(error)))
@@ -41,8 +41,8 @@ struct RestService: RestServiceable {
         }
     }
     
-    private func generateURL(endPoint: RestEndPointable) throws -> URL {
-        let baseURL = networkConfigure.baseURLString
+    private func generateURL(endPoint: RestEndPointable, api: ApiType) throws -> URL {
+        let baseURL = networkConfigure.generateBaseURL(by: api)
         let fullPath = baseURL + endPoint.path
         var urlComponents = URLComponents(string: fullPath)
         var urlQueryItems = [URLQueryItem]()
@@ -58,8 +58,8 @@ struct RestService: RestServiceable {
         return url
     }
     
-    private func generateURLRequest(endPoint: RestEndPointable) throws -> URLRequest {
-        let url = try generateURL(endPoint: endPoint)
+    private func generateURLRequest(endPoint: RestEndPointable, api: ApiType) throws -> URLRequest {
+        let url = try generateURL(endPoint: endPoint, api: api)
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = endPoint.httpMethod.methodName
         return urlRequest

@@ -40,7 +40,7 @@ extension AssetsStatusViewController {
 extension AssetsStatusViewController {
     private func requestRestAssetsStatusAPI() {
         let assetsStatusRequest = AssetsStatusRequest.lookUpAll
-        repository.execute(request: assetsStatusRequest) { [weak self] result in
+        repository.execute(request: assetsStatusRequest, api: .upbit) { [weak self] result in
             switch result {
             case .success(let assetsStatus):
                 self?.assetsStatusTableViewDataSource.configure(by: assetsStatus)

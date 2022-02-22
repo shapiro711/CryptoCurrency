@@ -27,10 +27,19 @@ enum TickerCriteria: String {
     }
 }
 
+protocol changeAPIObserverable {
+    func didRecive(apiType: ApiType)
+}
+
 final class ExchangeViewContorller: SegmentedPagerTabStripViewController {
+    @IBOutlet private weak var selectAPIButton: UIButton!
+    private var changeAPIObservers: [changeAPIObserverable] = []
+    private var apiType: ApiType = .upbit
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         containerView.isScrollEnabled = true
+        setupSelecAPIButton()
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
@@ -43,10 +52,28 @@ final class ExchangeViewContorller: SegmentedPagerTabStripViewController {
                   return []
               }
         
+        changeAPIObservers.append(krwTickerViewController)
+        changeAPIObservers.append(btcTickerViewController)
+        changeAPIObservers.append(popularityTickerViewController)
+        
+        
         krwTickerViewController.register(tickerCriteria: .krw)
         btcTickerViewController.register(tickerCriteria: .btc)
         popularityTickerViewController.register(tickerCriteria: .popularity)
         
         return [popularityTickerViewController, krwTickerViewController, btcTickerViewController, favoritesTickerViewController]
+    }
+}
+
+//MARK: - SetUp UI
+extension ExchangeViewContorller {
+    func setupSelecAPIButton() {
+        let bithumb = UIAction(title: "Bithumb", state: .on) { [weak self] _ in
+            self?.changeAPIObservers.forEach { $0.didRecive(apiType: .bithumb) }
+        }
+        let upbit = UIAction(title: "Upbit", state: .on) { [weak self] _ in
+            self?.changeAPIObservers.forEach { $0.didRecive(apiType: .bithumb) }
+        }
+        selectAPIButton.menu = UIMenu(title: "API 전환", children: [upbit, bithumb])
     }
 }

@@ -8,15 +8,33 @@
 import Foundation
 
 protocol NetworkConfigurable {
-    var baseURLString: String { get }
+    func generateBaseURL(by api: ApiType) -> String
 }
 
 struct RestConfigure: NetworkConfigurable {
-//    let baseURLString = "https://api.bithumb.com"
-    let baseURLString = "https://api.upbit.com"
+    private let bithumbBaseURLString = "https://api.bithumb.com"
+    private let upbitBaseURLString = "https://api.upbit.com"
+    
+    func generateBaseURL(by api: ApiType) -> String {
+        switch api {
+        case .bithumb:
+            return bithumbBaseURLString
+        case .upbit:
+            return upbitBaseURLString
+        }
+    }
 }
 
 struct WebSocketConfigure: NetworkConfigurable {
-//    let baseURLString = "wss://pubwss.bithumb.com"
-    let baseURLString = "wss://api.upbit.com"
+    private let bithumbBaseURLString = "wss://pubwss.bithumb.com"
+    private let upbitBaseURLString = "wss://api.upbit.com"
+    
+    func generateBaseURL(by api: ApiType) -> String {
+        switch api {
+        case .bithumb:
+            return bithumbBaseURLString
+        case .upbit:
+            return upbitBaseURLString
+        }
+    }
 }

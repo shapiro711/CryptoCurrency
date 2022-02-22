@@ -94,7 +94,7 @@ extension FavoriteTickerViewController {
         
         tickerRequests.forEach {
             dispatchGroup.enter()
-            repository.execute(request: $0) { result in
+            repository.execute(request: $0, api: .upbit) { result in
                 requestResults.append(result)
                 dispatchGroup.leave()
             }
@@ -136,7 +136,7 @@ extension FavoriteTickerViewController {
         
         tickerRequests.forEach {
             dispatchGroup.enter()
-            repository.execute(request: $0) { result in
+            repository.execute(request: $0, api: .upbit) { result in
                 requestResults.append(result)
                 dispatchGroup.leave()
             }

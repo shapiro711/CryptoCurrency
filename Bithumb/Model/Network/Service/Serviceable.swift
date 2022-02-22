@@ -12,7 +12,7 @@ protocol Serviceable {
 }
 
 protocol RestServiceable: Serviceable {
-    func request(endPoint: RestEndPointable, completion: @escaping (Result<Data, RestError>) -> Void)
+    func request(endPoint: RestEndPointable, api: ApiType, completion: @escaping (Result<Data, RestError>) -> Void)
 }
 
 protocol WebSocketServiceable: Serviceable {
