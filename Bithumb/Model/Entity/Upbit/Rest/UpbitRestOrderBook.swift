@@ -8,6 +8,7 @@
 import Foundation
 
 struct UpbitRestOrderBook {
+    let market: String
     let data: [OrderData]
     
     struct OrderData: Decodable {
@@ -27,6 +28,23 @@ struct UpbitRestOrderBook {
 
 extension UpbitRestOrderBook: Decodable {
     enum CodingKeys: String, CodingKey {
+        case market
         case data = "orderbook_units"
+    }
+}
+
+//MARK: - Convert To DTO
+extension UpbitRestOrderBook {
+    func toDomain() -> OrderBookDepthDTO {
+        let paymentCurrency = market.split(separator: "-").map { String($0) }.first
+        
+        
+        let bids = data.map { OrderBookDepthDTO.OrderBookData.init(type: .bid, price: $0.bidPrice, quantity: $0.bidSize, paymentCurrency: paymentCurrency) }
+        
+        let asks = data.map {
+            OrderBookDepthDTO.OrderBookData.init(type: .bid, price: $0.askPrice, quantity: $0.askSize, paymentCurrency: paymentCurrency)
+        }
+        
+        return OrderBookDepthDTO(bids: bids, asks: asks)
     }
 }
