@@ -23,14 +23,14 @@ final class OrderBookTableViewDataSource: NSObject {
         let newAsks = self.updateOrderBook(using: orderBookDepth.asks, oldOrderBook: self.asks)
         let newBids = self.updateOrderBook(using: orderBookDepth.bids, oldOrderBook: self.bids)
         
-        if newAsks.count > 30 {
-            self.asks = newAsks.reversed().prefix(30).reversed()
+        if newAsks.count > 15 {
+            self.asks = newAsks.reversed().prefix(15).reversed()
         } else {
             self.asks = newAsks
         }
         
-        if newBids.count > 30 {
-            self.bids = Array(newBids.prefix(30))
+        if newBids.count > 15 {
+            self.bids = Array(newBids.prefix(15))
         } else {
             self.bids = newBids
         }

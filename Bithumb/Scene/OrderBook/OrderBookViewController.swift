@@ -70,7 +70,7 @@ extension OrderBookViewController {
                     self?.orderBookTableView.reloadData()
                     self?.orderBookTableView.scrollToCenter()
                 }
-//                self?.requestWebSocketOrderBookAPI(symbol: symbol)
+                self?.requestUpbitWebSocketOrderBookAPI(marketList: [symbol])
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
@@ -118,7 +118,15 @@ extension OrderBookViewController {
 
 extension OrderBookViewController: WebSocketDelegate {
     func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
-        return
+        switch upbitMessageEvent {
+        case .orderBook(let orderBookDepthDTO):
+            orderBookTableViewDataSource.update(by: orderBookDepthDTO)
+            DispatchQueue.main.async {
+                self.orderBookTableView.reloadData()
+            }
+        default:
+            break
+        }
     }
     
     func didReceive(_ connectionEvent: WebSocketConnectionEvent) {
