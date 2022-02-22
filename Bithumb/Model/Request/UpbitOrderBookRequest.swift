@@ -8,7 +8,7 @@
 import Foundation
 
 enum UpbitOrderBookRequest {
-    case lookUp(markets: [String])
+    case lookUp(market: String)
 }
 
 extension UpbitOrderBookRequest: RestRequestable {
@@ -45,11 +45,10 @@ extension UpbitOrderBookRequest: RestRequestable {
 }
 
 extension UpbitOrderBookRequest {
-    
     private func parseOrderBook(from data: Data) ->  Result<OrderBookDepthDTO, RestError> {
         do {
-            let pareseResult = try JSONDecoder().decode(UpbitRestOrderBook.self, from: data)
-            return .success(pareseResult.toDomain())
+            let pareseResult = try JSONDecoder().decode([UpbitRestOrderBook].self, from: data)
+            return .success(pareseResult.first?.toDomain() ?? OrderBookDepthDTO(bids: [], asks: []))
         } catch{
             return .failure(.parsingFailed)
         }

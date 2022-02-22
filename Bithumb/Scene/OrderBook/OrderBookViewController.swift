@@ -26,15 +26,15 @@ final class OrderBookViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        registerObserver()
-//        requestRestOrderBookAPI()
-//        activityIndicator.startAnimating()
+        registerObserver()
+        reqeustUpbitRestOrderBookAPI()
+        activityIndicator.startAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        removeObserver()
-//        repository.execute(request: .disconnect)
+        removeObserver()
+        repository.execute(request: .disconnect)
     }
     
     func register(symbol: String?) {
@@ -55,6 +55,28 @@ extension OrderBookViewController {
 
 //MARK: - Network
 extension OrderBookViewController {
+    private func reqeustUpbitRestOrderBookAPI() {
+        guard let symbol = symbol else {
+            return
+        }
+        
+        let orderBookRequest = UpbitOrderBookRequest.lookUp(market: symbol)
+        repository.execute(request: orderBookRequest) { [weak self] result in
+            switch result {
+            case .success(let orderBookDepth):
+                self?.orderBookTableViewDataSource.configure(orderBookDepth: orderBookDepth)
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                    self?.orderBookTableView.reloadData()
+                    self?.orderBookTableView.scrollToCenter()
+                }
+//                self?.requestWebSocketOrderBookAPI(symbol: symbol)
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
     private func requestRestOrderBookAPI() {
         guard let symbol = symbol else {
             return
@@ -81,6 +103,11 @@ extension OrderBookViewController {
                 UIAlertController.showAlert(about: error, on: self)
             }
         }
+    }
+    
+    private func requestUpbitWebSocketOrderBookAPI(marketList: [String]) {
+        repository.execute(request: .connect(target: .upbitPublic))
+        repository.execute(request: .send(message: .upbitOrderBook(markets: marketList)))
     }
     
     private func requestWebSocketOrderBookAPI(symbol: String) {

@@ -35,6 +35,7 @@ enum MessageType {
     case transaction(symbols: [String])
     case orderBookDepth(symbols: [String])
     case upibtTicker(markets: [String])
+    case upbitOrderBook(markets: [String])
 }
 
 enum WebSocketRequest {
