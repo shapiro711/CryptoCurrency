@@ -55,9 +55,9 @@ extension UpbitRestTicker {
         }
         
         return TickerDTO(symbol: market, data: .init(currentPrice: closePrice,
-                                                     rateOfChange: signedChangepPrice,
-                                                     amountOfChange: signedChangeRate,
-                                                     accumulatedTransactionAmount: accumulatedTransactionAmount,
+                                                     rateOfChange: rateOfChange,
+                                                     amountOfChange: amountOfChange,
+                                                     accumulatedTransactionAmount: accumulatedTransactionAmount24Hours,
                                                      previousDayClosingPrice: previousClosingPrice))
     }
 }
