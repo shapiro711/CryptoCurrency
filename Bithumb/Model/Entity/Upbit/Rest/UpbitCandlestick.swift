@@ -16,9 +16,16 @@ struct UpbitCandlestick {
     let accmulatedTradeVolume: Double
     let previousDayClosingPrice: Double?
     let timestamp: Double
+    let dateTimeKst: String
     
+//    var date: Date {
+//        return Date(timeIntervalSince1970: timestamp)
+//    }
     var date: Date {
-        return Date(timeIntervalSince1970: timestamp / 1000)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        return dateFormatter.date(from: dateTimeKst) ?? Date()
     }
 }
 
@@ -31,6 +38,7 @@ extension UpbitCandlestick: Decodable {
         case highPrice = "high_price"
         case accmulatedTradeVolume = "candle_acc_trade_volume"
         case previousDayClosingPrice = "prev_closing_price"
+        case dateTimeKst = "candle_date_time_kst"
     }
 }
 

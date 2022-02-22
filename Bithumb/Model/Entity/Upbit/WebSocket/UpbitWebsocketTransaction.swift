@@ -16,7 +16,7 @@ struct UpbitWebsocketTransaction {
     let upDown: String
     
     var date: Date? {
-        return Date(timeIntervalSince1970: dateTime)
+        return Date(timeIntervalSince1970: dateTime/1000)
     }
 }
 

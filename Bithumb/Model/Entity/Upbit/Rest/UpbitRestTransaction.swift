@@ -14,7 +14,7 @@ struct UpbitRestTransaction {
     let orderType: String
     
     var date: Date? {
-        return Date(timeIntervalSince1970: dateTime)
+        return Date(timeIntervalSince1970: dateTime/1000)
     }
 }
 
