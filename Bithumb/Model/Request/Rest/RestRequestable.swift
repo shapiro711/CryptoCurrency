@@ -35,7 +35,8 @@ enum PathParameterType: Hashable {
     case orderCurrency
     case paymentCurrency
     case chartIntervals
-    case upbitMarket
+//    case upbitMarket
+    case upbitCandlestick
 }
 
 protocol RestRequestable {

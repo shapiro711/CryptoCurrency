@@ -22,6 +22,25 @@ enum ChartInterval: String {
         return self.rawValue
     }
     
+    var upbitPathValue: String {
+        switch self {
+        case .oneMinute:
+            return "minutes/1"
+        case .threeMinutes:
+            return "minutes/3"
+        case .fiveMinutes:
+            return "minutes/5"
+        case .tenMinutes:
+            return "minutes/10"
+        case .thirtyMinutes:
+            return "minutes/30"
+        case .oneHour:
+            return "minutes/60"
+        default:
+            return ""
+        }
+    }
+    
     init?(interval: String?) {
         switch interval {
         case "1분":

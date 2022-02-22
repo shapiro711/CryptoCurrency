@@ -16,6 +16,10 @@ struct UpbitCandlestick {
     let accmulatedTradeVolume: Double
     let previousDayClosingPrice: Double?
     let timestamp: Double
+    
+    var date: Date {
+        return Date(timeIntervalSince1970: timestamp / 1000)
+    }
 }
 
 extension UpbitCandlestick: Decodable {
@@ -29,3 +33,16 @@ extension UpbitCandlestick: Decodable {
         case previousDayClosingPrice = "prev_closing_price"
     }
 }
+
+//MARK: - Convert To DTO
+extension UpbitCandlestick {
+    func toDomain() -> CandlestickDTO {
+        return CandlestickDTO(date: date,
+                              openPrice: openPrice,
+                              closePrice: closePrice,
+                              highPrice: highPrice,
+                              lowPrice: lowPrice,
+                              volume: accmulatedTradeVolume)
+    }
+}
+

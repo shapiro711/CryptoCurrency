@@ -22,13 +22,14 @@ final class ChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSegmentControl()
+        upbitReqeustRestCandlestickAPI()
         setUpCandlestickChartView()
         setUpBarChartView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reqeustRestCandlestickAPI()
+        upbitReqeustRestCandlestickAPI()
         activityIndicator.startAnimating()
     }
     
@@ -44,7 +45,7 @@ extension ChartViewController {
     }
     
     @objc private func touchUpSegmentedControl() {
-        reqeustRestCandlestickAPI()
+        upbitReqeustRestCandlestickAPI()
     }
     
     private func setUpCandlestickChartView() {
@@ -75,6 +76,29 @@ extension ChartViewController {
 
 //MARK: - Network
 extension ChartViewController {
+    private func upbitReqeustRestCandlestickAPI() {
+        let index = chartIntervalSegmentedControl.selectedSegmentIndex
+        let interval = chartIntervalSegmentedControl.titleForSegment(at: index)
+        guard let chartInterval = ChartInterval(interval: interval), let symbol = symbol else {
+            return
+        }
+        
+        let candlestickRequest = UpbitCandlestickReqeust.lookUp(market: symbol, charIntervals: chartInterval)
+        
+        repository.execute(request: candlestickRequest) { [weak self] result in
+            switch result {
+            case .success(let candlesticks):
+                self?.drawCandlestickChart(by: candlesticks, chartInterval: chartInterval)
+                self?.drawBarChart(by: candlesticks, chartInterval: chartInterval)
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                }
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
     private func reqeustRestCandlestickAPI() {
         let index = chartIntervalSegmentedControl.selectedSegmentIndex
         let interval = chartIntervalSegmentedControl.titleForSegment(at: index)
@@ -138,7 +162,8 @@ extension ChartViewController {
             self.candlestickChartView.fitScreen()
             
             if let openPrice = data.last?.openPrice, let closingPrice = data.last?.closePrice {
-                self.candlestickChartView.zoomToCenter(scaleX: 80, scaleY: 20)
+//                self.candlestickChartView.zoomToCenter(scaleX: 80, scaleY: 20)
+                self.self.candlestickChartView.zoomToCenter(scaleX: 15, scaleY: 5)
                 self.candlestickChartView.moveViewTo(xValue: Double(data.count - 1), yValue: (openPrice + closingPrice) / 2, axis: .right)
             }
             
@@ -179,7 +204,8 @@ extension ChartViewController {
             self.barChartView.fitScreen()
             
             if let volume = data.last?.volume {
-                self.barChartView.zoomToCenter(scaleX: 80, scaleY: 20)
+//                self.barChartView.zoomToCenter(scaleX: 80, scaleY: 20)
+                self.barChartView.zoomToCenter(scaleX: 15, scaleY: 5)
                 self.barChartView.moveViewTo(xValue: Double(data.count - 1), yValue: volume, axis: .right)
             }
             

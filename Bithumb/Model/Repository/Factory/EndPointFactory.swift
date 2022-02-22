@@ -44,6 +44,10 @@ struct EndPointFactory {
             fullPath += slash
             fullPath += chartIntervals
         }
+        if let upbitCandles = pathParameters[.upbitCandlestick] {
+            fullPath += slash
+            fullPath += upbitCandles
+        }
         
         return fullPath
     }
