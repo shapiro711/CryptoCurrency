@@ -51,10 +51,10 @@ extension UpbitCandlestickReqeust: RestRequestable {
 extension UpbitCandlestickReqeust {
     private func parseCandlestick(from data: Data) ->  Result<[CandlestickDTO], RestError> {
         do {
-            let pareseResult = try JSONDecoder().decode([UpbitCandlestick].self, from: data)
-            let dtos = pareseResult.map { $0.toDomain()}
+            let paresedResult = try JSONDecoder().decode([UpbitCandlestick].self, from: data)
+            let dtos = paresedResult.map { $0.toDomain()}
             return .success(dtos)
-        } catch{
+        } catch {
             return .failure(.parsingFailed)
         }
     }

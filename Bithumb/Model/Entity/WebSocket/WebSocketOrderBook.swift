@@ -11,6 +11,14 @@ enum OrderType: String {
     case ask
     case bid
     
+    static func CalcultateUpbitOrderType(by orderType: String) -> OrderType {
+        if orderType == "BID" {
+            return OrderType.bid
+        } else {
+            return OrderType.ask
+        }
+    }
+    
     init?(numberValue: Int?) {
         switch numberValue {
         case 1:

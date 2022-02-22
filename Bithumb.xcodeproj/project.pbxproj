@@ -60,6 +60,7 @@
 		3F74C91D27C3E83A00F6F440 /* MarketDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F74C91C27C3E83A00F6F440 /* MarketDTO.swift */; };
 		3F7D6B0127C4A030001B787A /* UpbitOrderBookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D6B0027C4A030001B787A /* UpbitOrderBookRequest.swift */; };
 		3F7D6B0327C4F2A9001B787A /* UpbitCandlestickReqeust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D6B0227C4F2A9001B787A /* UpbitCandlestickReqeust.swift */; };
+		3F7D6B0527C5136D001B787A /* UpbitTransactionReqeust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D6B0427C5136D001B787A /* UpbitTransactionReqeust.swift */; };
 		3FA0027027A6637900C20DE1 /* AssetsStatusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */; };
 		3FA0027227A6D35600C20DE1 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */; };
 		3FA0027427A6E01A00C20DE1 /* AppLifeCycleOserverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */; };
@@ -179,6 +180,7 @@
 		3F74C91C27C3E83A00F6F440 /* MarketDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDTO.swift; sourceTree = "<group>"; };
 		3F7D6B0027C4A030001B787A /* UpbitOrderBookRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitOrderBookRequest.swift; sourceTree = "<group>"; };
 		3F7D6B0227C4F2A9001B787A /* UpbitCandlestickReqeust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitCandlestickReqeust.swift; sourceTree = "<group>"; };
+		3F7D6B0427C5136D001B787A /* UpbitTransactionReqeust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitTransactionReqeust.swift; sourceTree = "<group>"; };
 		3FA0026F27A6637900C20DE1 /* AssetsStatusHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsStatusHeaderView.swift; sourceTree = "<group>"; };
 		3FA0027127A6D35600C20DE1 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		3FA0027327A6E01A00C20DE1 /* AppLifeCycleOserverable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifeCycleOserverable.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				3F74C91A27C3E73E00F6F440 /* UpbitMarketRequest.swift */,
 				3F74C91827C3DFE200F6F440 /* UpbitTickerRequest.swift */,
 				3F7D6B0027C4A030001B787A /* UpbitOrderBookRequest.swift */,
+				3F7D6B0427C5136D001B787A /* UpbitTransactionReqeust.swift */,
 				C9FF2583279937DB00FFC876 /* Rest */,
 				C9FF2582279937D500FFC876 /* WebSocket */,
 				C9E59F2C279708550093BD4A /* ResponseData */,
@@ -934,6 +937,7 @@
 				C9DA6B68279016900021706D /* RestOrderBook.swift in Sources */,
 				C9AC23D227906C1600A359FB /* AssetStatus.swift in Sources */,
 				C951F25127A055ED00C99A14 /* OrderBookTableViewDataSource.swift in Sources */,
+				3F7D6B0527C5136D001B787A /* UpbitTransactionReqeust.swift in Sources */,
 				C9E59EDE279296EE0093BD4A /* EndPoints.swift in Sources */,
 				C9E59F292796F85A0093BD4A /* TransactionDTO.swift in Sources */,
 				C9AB327B27A3D304003FA78E /* AssetStatusTableViewCell.swift in Sources */,
