@@ -14,6 +14,7 @@ final class FavoriteTickerViewController: UIViewController {
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     private let repository: Repositoryable = Repository()
     private let tickerTableViewDataSource = TickerTableViewDataSource()
+    private let apiType: ApiType = .upbit
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -25,7 +26,7 @@ final class FavoriteTickerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        requestRestTickerAPI()
+        reqeustUpbitRestTickerAPI()
         activityIndicator.startAnimating()
     }
     
@@ -81,10 +82,48 @@ extension FavoriteTickerViewController: UITableViewDelegate {
 
 //MARK: - Network
 extension FavoriteTickerViewController {
+    private func reqeustUpbitRestTickerAPI() {
+        let favoriteCoinSymbols = bringFavoriteCoinSymbols()
+        var requestResults: [Result<[TickerDTO], RestError>] = []
+        let dispatchGroup = DispatchGroup()
+        
+        
+        let tickerRequests = favoriteCoinSymbols.compactMap { (symbol: String) ->UpbitTickerRequest? in
+            return UpbitTickerRequest.lookUp(market: symbol)
+        }
+        
+        tickerRequests.forEach {
+            dispatchGroup.enter()
+            repository.execute(request: $0) { result in
+                requestResults.append(result)
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .global()) { [weak self] in
+            var favoriteCoinTickers: [TickerDTO] = []
+            requestResults.forEach { result in
+                switch result {
+                case .success(let tickers):
+                    favoriteCoinTickers.append(contentsOf: tickers)
+                case .failure(let error):
+                    UIAlertController.showAlert(about: error, on: self)
+                }
+            }
+            self?.tickerTableViewDataSource.configure(tickers: favoriteCoinTickers)
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                self?.tickerTableView.reloadData()
+            }
+//            self?.requestUpbitWebSocketTickerAPI(marketList: favoriteCoinSymbols)
+        }
+    }
+    
     private func requestRestTickerAPI() {
         let favoriteCoinSymbols = bringFavoriteCoinSymbols()
         var requestResults: [Result<[TickerDTO], RestError>] = []
         let dispatchGroup = DispatchGroup()
+        
         
         let tickerRequests = favoriteCoinSymbols.compactMap { (symbol: String) -> TickerRequest? in
             let currencies = symbol.split(separator: "_").map { String($0) }
@@ -120,6 +159,11 @@ extension FavoriteTickerViewController {
             }
             self?.requestWebSocketTickerAPI(symbols: favoriteCoinSymbols)
         }
+    }
+    
+    private func requestUpbitWebSocketTickerAPI(marketList: [String]) {
+        repository.execute(request: .connect(target: .upbitPublic))
+        repository.execute(request: .send(message: .upibtTicker(markets: marketList)))
     }
     
     private func requestWebSocketTickerAPI(symbols: [String]) {

@@ -25,6 +25,7 @@ final class ExchangeDetailViewController: ButtonBarPagerTabStripViewController {
     private let repository: Repositoryable = Repository()
     private var closingPriceObservers: [ClosingPriceObserverable] = []
     private var isFavorite = false
+    private var apiType: ApiType = .upbit
     private lazy var favoriteButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchUpFavoriteButton))
         button.tintColor = .systemOrange
@@ -44,7 +45,7 @@ final class ExchangeDetailViewController: ButtonBarPagerTabStripViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        requestRestTickerAPI()
+        reqeustUpbitRestTickerAPI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -139,6 +140,27 @@ extension ExchangeDetailViewController {
 
 //MARK: - Network
 extension ExchangeDetailViewController {
+    private func reqeustUpbitRestTickerAPI() {
+        guard let symbol = symbol else {
+            return
+        }
+        
+        let tickerRequest = UpbitTickerRequest.lookUp(market: symbol)
+        
+        repository.execute(request: tickerRequest) { [weak self] result in
+            switch result {
+            case .success(let tickers):
+                self?.closingPriceObservers.forEach { $0.didReceive(previousDayClosingPrice: tickers.first?.data.previousDayClosingPrice) }
+                DispatchQueue.main.async {
+                    self?.headerView.configure(by: tickers.first)
+                }
+                self?.requestUpbitWebSocketTickerAPI(marketList: [symbol])
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
     private func requestRestTickerAPI() {
         guard let symbol = symbol else {
             return
@@ -164,6 +186,12 @@ extension ExchangeDetailViewController {
         }
     }
     
+    
+    private func requestUpbitWebSocketTickerAPI(marketList: [String]) {
+        repository.execute(request: .connect(target: .upbitPublic))
+        repository.execute(request: .send(message: .upibtTicker(markets: marketList)))
+    }
+    
     private func requestWebSocketTickerAPI(symbol: String) {
         repository.execute(request: .connect(target: .bitumbPublic))
         repository.execute(request: .send(message: .ticker(symbols: [symbol])))
@@ -172,7 +200,15 @@ extension ExchangeDetailViewController {
 
 extension ExchangeDetailViewController: WebSocketDelegate {
     func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
-        return
+        switch upbitMessageEvent {
+        case .ticker(let tickerDTO):
+            closingPriceObservers.forEach { $0.didReceive(previousDayClosingPrice: tickerDTO.data.previousDayClosingPrice) }
+            DispatchQueue.main.async {
+                self.headerView.configure(by: tickerDTO)
+            }
+        default:
+            break
+        }
     }
     
     func didReceive(_ connectionEvent: WebSocketConnectionEvent) {

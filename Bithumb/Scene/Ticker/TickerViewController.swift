@@ -89,14 +89,14 @@ extension TickerViewController {
                 }
 //                let symbols = tickers.compactMap { $0.symbol }
 //                self.requestWebSocketTickerAPI(symbols: symbols)
-                self.requestWebSocketTickerAPI(marketList: self.marketList.map { $0.market })
+                self.requestUpbitWebSocketTickerAPI(marketList: self.marketList.map { $0.market })
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
         }
     }
     
-    private func requestWebSocketTickerAPI(marketList: [String]) {
+    private func requestUpbitWebSocketTickerAPI(marketList: [String]) {
         repository.execute(request: .connect(target: .upbitPublic))
         repository.execute(request: .send(message: .upibtTicker(markets: marketList)))
     }

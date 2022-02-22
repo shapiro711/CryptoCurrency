@@ -54,7 +54,7 @@ extension UpbitTickerRequest: RestRequestable {
     var parser: (Data) -> Result<[TickerDTO], RestError> {
         switch self {
         case .lookUpAll:
-            return parseAllTicker
+            return parseTicker
         case .lookUp:
             return parseTicker
         }
@@ -63,22 +63,11 @@ extension UpbitTickerRequest: RestRequestable {
 }
 
 extension UpbitTickerRequest {
-    private func parseAllTicker(from data: Data) ->  Result<[TickerDTO], RestError> {
+    private func parseTicker(from data: Data) ->  Result<[TickerDTO], RestError> {
         do {
             let pareseResult = try JSONDecoder().decode([UpbitRestTicker].self, from: data)
             let dtos = pareseResult.map { $0.toDomain()}
             return .success(dtos)
-        } catch{
-            return .failure(.parsingFailed)
-        }
-    }
-    
-    private func parseTicker(from data: Data) ->  Result<[TickerDTO], RestError> {
-        do {
-            let pareseResult = try JSONDecoder().decode(UpbitRestTicker.self, from: data)
-            var dto: [TickerDTO] = []
-            dto.append(pareseResult.toDomain())
-            return .success(dto)
         } catch{
             return .failure(.parsingFailed)
         }

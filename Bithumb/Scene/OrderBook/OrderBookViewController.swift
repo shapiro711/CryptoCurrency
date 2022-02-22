@@ -26,15 +26,15 @@ final class OrderBookViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        registerObserver()
-        requestRestOrderBookAPI()
-        activityIndicator.startAnimating()
+//        registerObserver()
+//        requestRestOrderBookAPI()
+//        activityIndicator.startAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeObserver()
-        repository.execute(request: .disconnect)
+//        removeObserver()
+//        repository.execute(request: .disconnect)
     }
     
     func register(symbol: String?) {
