@@ -20,6 +20,8 @@ struct MessageFactory {
             return SubscriptionMessage(type: "ticker", symbols: nil, criteriaOfChange: nil, ticket: UUID().uuidString, codes: markets)
         case .upbitOrderBook(markets: let markets):
             return SubscriptionMessage(type: "orderbook", symbols: nil, criteriaOfChange: nil, ticket: UUID().uuidString, codes: markets)
+        case .upbitTransaction(markets: let markets):
+            return SubscriptionMessage(type: "trade", symbols: nil, criteriaOfChange: nil, ticket: UUID().uuidString, codes: markets)
         }
     }
 }

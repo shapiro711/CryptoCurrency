@@ -66,6 +66,9 @@ struct WebSocketMessageHandler {
             } else if stringData.contains("orderbook") {
                 let orderbookEntity = try JSONDecoder().decode(UpbitWebsocketOrderBook.self, from: data)
                 return .upibtmessage(.orderBook(orderbookEntity.toDomain()))
+            } else if stringData.contains("trade"){
+                let orderbookEntity = try JSONDecoder().decode(UpbitWebsocketTransaction.self, from: data)
+                return .upibtmessage(.transaction(orderbookEntity.toDomain()))
             } else {
                 return .error(.urlGeneration)
             }

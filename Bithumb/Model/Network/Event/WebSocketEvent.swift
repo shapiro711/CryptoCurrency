@@ -36,7 +36,7 @@ enum WebSocketResponseMessage {
 enum WebSocketUpbitResponseMessage {
     case ticker(TickerDTO)
     case orderBook(OrderBookDepthDTO)
-    case transaction([TransactionDTO])
+    case transaction(TransactionDTO)
     case unsupported
 }
 

@@ -30,7 +30,7 @@ final class TransactionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        requestRestTransactionAPI()
+        requestUpbitRestTransactionAPI()
         activityIndicator.startAnimating()
     }
     
@@ -78,6 +78,32 @@ extension TransactionViewController {
 
 //MARK: - Network
 extension TransactionViewController {
+    private func requestUpbitRestTransactionAPI() {
+        guard let symbol = symbol else {
+            return
+        }
+        
+        let transactionRequest = UpbitTransactionReqeust.lookUp(market: symbol)
+        repository.execute(request: transactionRequest) { [weak self] result in
+            switch result {
+            case .success(var transactions):
+                transactions = transactions.map { (transaction: TransactionDTO) -> TransactionDTO in
+                    var transaction = transaction
+                    transaction.symbol = symbol
+                    return transaction
+                }
+                self?.spreadsheetDataSource.configure(by: transactions)
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                    self?.spreadsheetView.reloadData()
+                }
+                self?.requestUpbitWebSocketOrderBookAPI(marketList: [symbol])
+            case .failure(let error):
+                UIAlertController.showAlert(about: error, on: self)
+            }
+        }
+    }
+    
     private func requestRestTransactionAPI() {
         guard let symbol = symbol else {
             return
@@ -109,6 +135,11 @@ extension TransactionViewController {
         }
     }
     
+    private func requestUpbitWebSocketOrderBookAPI(marketList: [String]) {
+        repository.execute(request: .connect(target: .upbitPublic))
+        repository.execute(request: .send(message: .upbitTransaction(markets: marketList)))
+    }
+    
     private func requestWebSocketTransactionAPI(symbol: String) {
         repository.execute(request: .connect(target: .bitumbPublic))
         repository.execute(request: .send(message: .transaction(symbols: [symbol])))
@@ -117,7 +148,15 @@ extension TransactionViewController {
 
 extension TransactionViewController: WebSocketDelegate {
     func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
-        return
+        switch upbitMessageEvent {
+        case .transaction(let transaction):
+            spreadsheetDataSource.update(by: [transaction])
+            DispatchQueue.main.async {
+                self.spreadsheetView.reloadData()
+            }
+        default:
+            break
+        }
     }
     
     func didReceive(_ connectionEvent: WebSocketConnectionEvent) {

@@ -21,14 +21,14 @@ struct TransactionDTO: DataTransferable {
                   return .hypen
               }
         
-        let currencies = symbol.split(separator: "_").map { String($0) }
-        guard let paymentCurrency = currencies.last else {
-            return .hypen
-        }
+//        let currencies = symbol.split(separator: "_").map { String($0) }
+//        guard let paymentCurrency = currencies.last else {
+//            return .hypen
+//        }
         
         let numberFormatter = NumberFormatter()
         
-        if paymentCurrency == "KRW" {
+        if symbol.contains("KRW") {
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumFractionDigits = 2
         } else {

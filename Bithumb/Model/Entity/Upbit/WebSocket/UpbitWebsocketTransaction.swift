@@ -33,6 +33,6 @@ extension UpbitWebsocketTransaction: Decodable {
 
 extension UpbitWebsocketTransaction {
     func toDomain() -> TransactionDTO {
-        return TransactionDTO(date: date, price: price, quantity: quantity, type: OrderType.CalcultateUpbitOrderType(by: orderType), symbol: nil)
+        return TransactionDTO(date: date, price: price, quantity: quantity, type: OrderType.CalcultateUpbitOrderType(by: orderType), symbol: market)
     }
 }
