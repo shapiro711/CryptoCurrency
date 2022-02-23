@@ -1,4 +1,4 @@
-# ✨ Bithumb 프로젝트
+# ✨ Upbit/Bithumb 가상 자산 정보 프로젝트
 
 - 프로젝트 진행자: [안진홍 (Coden)](https://github.com/ictechgy), [김도형 (Shapiro)](https://github.com/shapiro711)
 
@@ -26,24 +26,29 @@
 
 ## 📌 프로젝트 설명
 
-Bithumb Public API를 이용하여 Bithumb의 가상자산 데이터를 보여주는 앱
+Bithumb Public API와 Upbit Public API를 이용하여 가상자산 데이터를 보여주는 앱
 
-가상자산의 목록, 호가, 시세, 차트, 입출금 현황 등의 정보를 UI로 표현한다.
+각각의 거래소에 맞는 가상자산의 목록, 호가, 시세, 차트, 입출금 현황 등의 정보를 UI로 표현한다.
 
 &nbsp;   
 
 ## 📅 프로젝트 일정
 
 ### 프로젝트 진행 기간: 2022.1.17(월) ~ 2022.2.2(수)
+### API 리펙토링 기간: 2022.2.21(월) ~ 2022.2.23(수)
 
 - 1주 차: REST API, WebSocket API를 사용하기 위한 네트워크 설계
 - 2주 차: 데이터를 이용한 UI 구현
+- 리펙토링 기간: Upbit API 추가, Bithumb 과 같이 사용 할 수 있도록 구현
 
 &nbsp;   
 
 ## 🔖 프로젝트 진행 방식
+### 프로젝트 역할
+- Bithumb api 적용, 뷰 구성: 김도형, 안진홍 100% 페어 프로그래밍으로 진행
+- Upbit api 추가, Bithumb api와 함께 사용 기능 구현: 김도형 혼자 진행
 
-- 100% 페어 프로그래밍으로 진행
+### Git 사용
 - Gitmoji를 이용한 커밋 ex) ✨ [Feat]: 웹소켓 통신 중에 발생할 수 있는 구독 및 클라이언트 에러 처리 구현
 - GitHub Flow 브런칭 규칙 사용 ex) feature/design-network-type
 
@@ -76,6 +81,13 @@ Bithumb Public API를 이용하여 Bithumb의 가상자산 데이터를 보여�
 
 ## 📺 실행 화면
 
+|Upbit, Bithumb API 전환|
+|:--:|
+|<img width="200" alt="api 전환" src="https://user-images.githubusercontent.com/57553889/155337889-db2cc946-d9c3-42fe-b207-364dd8e07ad7.gif">|
+
+&nbsp; 
+
+### Bithumb API 작동 화면
 |가상자산 목록|입출금 현황|관심 목록|
 |:--:|:--:|:--:|
 |<img width="200" alt="코인 목록" src="https://user-images.githubusercontent.com/57553889/152048208-ad8c9169-76c6-4ad9-8bef-75d02ed5b8aa.gif">|<img width="200" alt="입출금 현황" src="https://user-images.githubusercontent.com/57553889/151996453-a4e8c8f8-f449-4e7d-b7e7-41b1f3002419.gif">|<img width="200" alt="관심 목록" src="https://user-images.githubusercontent.com/57553889/151996344-42d534e5-6186-42f2-95db-4490ed6a73e4.gif">|
@@ -91,6 +103,14 @@ Bithumb Public API를 이용하여 Bithumb의 가상자산 데이터를 보여�
 |더보기|에러 화면|
 |:--:|:--:|
 |<img width="200" alt="더보기" src="https://user-images.githubusercontent.com/57553889/151996419-f315d93e-a123-47cf-962f-8f5a6421772e.gif">|<img width="200" alt="에러" src="https://user-images.githubusercontent.com/57553889/151996449-7438cd5d-96da-4ae0-8922-4ba81ddc4c31.gif">|
+
+&nbsp;   
+
+### UPbit API 작동 화면
+
+|UPbit 작동 화면|
+|:--:|
+|<img width="200" alt="업비트전체" src="https://user-images.githubusercontent.com/57553889/155339079-ae7d4655-5ddb-4ea5-a33d-d576a6c377db.gif">|
 
 &nbsp;   
 
@@ -208,6 +228,7 @@ Bithumb Public API를 이용하여 Bithumb의 가상자산 데이터를 보여�
 
 - 메인 화면에서 탭바를 통해 이동
 - 각각의 가상자산들 입출금 현황을 표시
+- upbit api는 계정 로그인이 필요하여 미구현 상태
 
 &nbsp;   
 
