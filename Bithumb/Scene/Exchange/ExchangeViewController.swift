@@ -38,7 +38,7 @@ final class ExchangeViewContorller: SegmentedPagerTabStripViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         containerView.isScrollEnabled = true
-        setupSelecAPIButton()
+        setupSelectAPIButton()
     }
     
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
@@ -67,7 +67,7 @@ final class ExchangeViewContorller: SegmentedPagerTabStripViewController {
 
 //MARK: - SetUp UI
 extension ExchangeViewContorller {
-    func setupSelecAPIButton() {
+    func setupSelectAPIButton() {
         let bithumb = UIAction(title: "Bithumb", state: .on) { [weak self] _ in
             self?.changeAPIObservers.forEach { $0.didRecive(apiType: .bithumb) }
         }
