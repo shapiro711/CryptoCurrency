@@ -311,7 +311,6 @@
 				3F52C2982790055000AE2082 /* WebSocketTransaction.swift */,
 				3F52C2A72791DC7E00AE2082 /* SubscriptionMessage.swift */,
 				C9FF2586279A8D4300FFC876 /* ConnectionMessage.swift */,
-				3F74C90827C35F1800F6F440 /* UpbitSubscriptionMessage.swift */,
 			);
 			path = WebSocket;
 			sourceTree = "<group>";
@@ -398,9 +397,8 @@
 		3F52C29E27918C4800AE2082 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				3F9B4CB727C66C4900311E79 /* Bithumb */,
 				3F74C90127C35CE300F6F440 /* Upbit */,
-				3F008FFE279342B600356C3F /* Rest */,
-				3F008FFF279342BD00356C3F /* WebSocket */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -505,8 +503,31 @@
 				3F74C91027C3D9D500F6F440 /* UpbitWebsocketTransaction.swift */,
 				3F74C91227C3DA7D00F6F440 /* UpbitWebSocketTicker.swift */,
 				3F74C91427C3DB3D00F6F440 /* UpbitWebSocketOrderBook.swift */,
+				3F74C90827C35F1800F6F440 /* UpbitSubscriptionMessage.swift */,
 			);
 			path = WebSocket;
+			sourceTree = "<group>";
+		};
+		3F9B4CB627C66C0000311E79 /* UpbitRest */ = {
+			isa = PBXGroup;
+			children = (
+				3F7D6B0227C4F2A9001B787A /* UpbitCandlestickReqeust.swift */,
+				3F74C91A27C3E73E00F6F440 /* UpbitMarketRequest.swift */,
+				3F74C91827C3DFE200F6F440 /* UpbitTickerRequest.swift */,
+				3F7D6B0027C4A030001B787A /* UpbitOrderBookRequest.swift */,
+				3F7D6B0427C5136D001B787A /* UpbitTransactionReqeust.swift */,
+				3F7D6B0627C53F18001B787A /* UpbitAsstesStatusReqeust.swift */,
+			);
+			path = UpbitRest;
+			sourceTree = "<group>";
+		};
+		3F9B4CB727C66C4900311E79 /* Bithumb */ = {
+			isa = PBXGroup;
+			children = (
+				3F008FFE279342B600356C3F /* Rest */,
+				3F008FFF279342BD00356C3F /* WebSocket */,
+			);
+			path = Bithumb;
 			sourceTree = "<group>";
 		};
 		3FA0027527A6F89400C20DE1 /* Resource */ = {
@@ -556,13 +577,8 @@
 		C9E59ED027918DF10093BD4A /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				3F7D6B0227C4F2A9001B787A /* UpbitCandlestickReqeust.swift */,
-				3F74C91A27C3E73E00F6F440 /* UpbitMarketRequest.swift */,
-				3F74C91827C3DFE200F6F440 /* UpbitTickerRequest.swift */,
-				3F7D6B0027C4A030001B787A /* UpbitOrderBookRequest.swift */,
-				3F7D6B0427C5136D001B787A /* UpbitTransactionReqeust.swift */,
-				3F7D6B0627C53F18001B787A /* UpbitAsstesStatusReqeust.swift */,
-				C9FF2583279937DB00FFC876 /* Rest */,
+				3F9B4CB627C66C0000311E79 /* UpbitRest */,
+				C9FF2583279937DB00FFC876 /* BithumbRest */,
 				C9FF2582279937D500FFC876 /* WebSocket */,
 				C9E59F2C279708550093BD4A /* ResponseData */,
 			);
@@ -650,7 +666,7 @@
 			path = WebSocket;
 			sourceTree = "<group>";
 		};
-		C9FF2583279937DB00FFC876 /* Rest */ = {
+		C9FF2583279937DB00FFC876 /* BithumbRest */ = {
 			isa = PBXGroup;
 			children = (
 				C9E59ED127918EA80093BD4A /* RestRequestable.swift */,
@@ -660,7 +676,7 @@
 				C9E59ED52791C6A60093BD4A /* AssetsStatusRequest.swift */,
 				3F52C2A52791CD3C00AE2082 /* CandlestickRequest.swift */,
 			);
-			path = Rest;
+			path = BithumbRest;
 			sourceTree = "<group>";
 		};
 		C9FF258A279DB6FB00FFC876 /* Storyborad */ = {
