@@ -9,4 +9,5 @@ import Foundation
 
 struct WebSocketEndPoint: WebSocketEndPointable {
     var path: String
+    var apiType: ApiType
 }

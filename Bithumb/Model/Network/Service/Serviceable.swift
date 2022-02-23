@@ -17,7 +17,7 @@ protocol RestServiceable: Serviceable {
 
 protocol WebSocketServiceable: Serviceable {
     func register(delegate: WebSocketServiceDelegate)
-    func connect(endPoint: WebSocketEndPointable)
+    func connect(endPoint: WebSocketEndPointable, api: ApiType)
     func disconnect()
     func write(message: SubscriptionMessage)
 }

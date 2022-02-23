@@ -28,6 +28,15 @@ enum WebSocketType {
             return "/v1"
         }
     }
+    
+    var apiType: ApiType{
+        switch self {
+        case .bitumbPublic:
+            return .bithumb
+        case .upbitPublic:
+            return .upbit
+        }
+    }
 }
 
 enum MessageType {

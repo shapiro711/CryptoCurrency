@@ -78,7 +78,7 @@ extension Repository: WebSocketServiceDelegate {
             }
             let endPoint = EndPointFactory.makeWebSocketEndPoint(from: target)
             webSocketService.register(delegate: self)
-            webSocketService.connect(endPoint: endPoint)
+            webSocketService.connect(endPoint: endPoint, api: target.apiType)
         case .disconnect:
             webSocketService.disconnect()
         case .send(let message):

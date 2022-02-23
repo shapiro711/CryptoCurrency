@@ -32,9 +32,9 @@ final class WebSocketService: WebSocketServiceable {
         self.delegate = delegate
     }
     
-    func connect(endPoint: WebSocketEndPointable) {
+    func connect(endPoint: WebSocketEndPointable, api: ApiType) {
         do {
-            let request = try generateURLRequest(endPoint: endPoint)
+            let request = try generateURLRequest(endPoint: endPoint, api: api)
             sessionManager.register(delegate: self)
             sessionManager.start(request: request)
         } catch {
@@ -55,8 +55,8 @@ final class WebSocketService: WebSocketServiceable {
         }
     }
     
-    private func generateURL(endPoint: WebSocketEndPointable) throws -> URL {
-        let baseURL = "wss://api.upbit.com"
+    private func generateURL(endPoint: WebSocketEndPointable, api: ApiType) throws -> URL {
+        let baseURL = networkConfigure.generateBaseURL(by: api)
         let fullPath = baseURL + endPoint.path
         guard let url = URL(string: fullPath) else {
             throw WebSocketCommonError.urlGeneration
@@ -64,8 +64,8 @@ final class WebSocketService: WebSocketServiceable {
         return url
     }
     
-    private func generateURLRequest(endPoint: WebSocketEndPointable) throws -> URLRequest {
-        let url = try generateURL(endPoint: endPoint)
+    private func generateURLRequest(endPoint: WebSocketEndPointable, api: ApiType) throws -> URLRequest {
+        let url = try generateURL(endPoint: endPoint, api: api)
         let urlRequest = URLRequest(url: url)
         return urlRequest
     }

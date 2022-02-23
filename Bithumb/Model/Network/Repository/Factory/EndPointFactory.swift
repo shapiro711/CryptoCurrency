@@ -18,7 +18,7 @@ struct EndPointFactory {
     }
     
     static func makeWebSocketEndPoint(from webSocketType: WebSocketType) -> WebSocketEndPointable {
-        return WebSocketEndPoint(path: webSocketType.path + webSocketType.specificPath)
+        return WebSocketEndPoint(path: webSocketType.path + webSocketType.specificPath, apiType: webSocketType.apiType)
     }
     
     private static func mergeRestPaths(basicPath: String,
