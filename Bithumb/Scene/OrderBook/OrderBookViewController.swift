@@ -16,6 +16,7 @@ final class OrderBookViewController: UIViewController {
     private let repository: Repositoryable = Repository()
     private var symbol: String?
     private var closingPriceReceiveStatus = ClosingPriceReceiveStatus.notReceived
+    private var apiType: ApiType = .upbit
     
     //MARK: LifeCycle
     override func viewDidLoad() {

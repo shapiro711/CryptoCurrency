@@ -17,6 +17,7 @@ final class TransactionViewController: UIViewController {
     private var symbol: String?
     private let repository: Repositoryable = Repository()
     private var closingPriceReceiveStatus = ClosingPriceReceiveStatus.notReceived
+    private var apiType: ApiType = .upbit
     
     //MARK: LifeCycle
     override func viewDidLoad() {

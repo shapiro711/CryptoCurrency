@@ -62,6 +62,10 @@ final class ExchangeDetailViewController: ButtonBarPagerTabStripViewController {
         self.koreanName = koreanName
     }
     
+    func register(apiType: ApiType) {
+        self.apiType = apiType
+    }
+    
     func addObserver(observer: ClosingPriceObserverable) {
         closingPriceObservers.append(observer)
     }

@@ -8,7 +8,7 @@
 import UIKit
 import XLPagerTabStrip
 
-final class TickerViewController: UIViewController {
+class TickerViewController: UIViewController {
     //MARK: Properties
     @IBOutlet private weak var tickerTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -30,7 +30,7 @@ final class TickerViewController: UIViewController {
         super.viewWillAppear(animated)
         isViewDisplay = true
         registerObserver()
-        requestMarketList()
+        reqeustRestTickerAPI()
         activityIndicator.startAnimating()
     }
     
@@ -74,7 +74,7 @@ extension TickerViewController {
         }
     }
     
-    private func requestRestTickerAPI() {
+    private func requestBithumbRestTickerAPI() {
         let tickerRequest = tickerCriteria.reqeustBasedOnCriteria
         repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
@@ -88,7 +88,7 @@ extension TickerViewController {
                     self?.tickerTableView.reloadData()
                 }
                 let symbols = tickers.compactMap { $0.symbol }
-                self?.requestWebSocketTickerAPI(symbols: symbols)
+                self?.requestBithumbWebSocketTickerAPI(symbols: symbols)
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
@@ -124,9 +124,19 @@ extension TickerViewController {
         repository.execute(request: .send(message: .upibtTicker(markets: marketList)))
     }
     
-    private func requestWebSocketTickerAPI(symbols: [String]) {
+    private func requestBithumbWebSocketTickerAPI(symbols: [String]) {
         repository.execute(request: .connect(target: .bitumbPublic))
         repository.execute(request: .send(message: .ticker(symbols: symbols)))
+    }
+    
+    private func reqeustRestTickerAPI() {
+        if apiType == .bithumb {
+            requestBithumbRestTickerAPI()
+        } else if apiType == .upbit {
+            requestMarketList()
+        } else {
+            return
+        }
     }
 }
 
@@ -175,7 +185,7 @@ extension TickerViewController: WebSocketDelegate {
 //MARK: - Conform to AppLifeCycleOserverable
 extension TickerViewController: AppLifeCycleOserverable {
     func receiveForegoundNotification() {
-        requestRestTickerAPI()
+        requestBithumbRestTickerAPI()
     }
     
     func receiveBackgroundNotification() {
@@ -202,6 +212,7 @@ extension TickerViewController: UITableViewDelegate {
         
         exchangeDetailViewController.register(symbol: symbol)
         exchangeDetailViewController.register(koreanName: koreanName)
+        exchangeDetailViewController.register(apiType: self.apiType)
         
         navigationController?.pushViewController(exchangeDetailViewController, animated: true)
     }
@@ -226,7 +237,7 @@ extension TickerViewController: changeAPIObserverable {
             repository.execute(request: .disconnect)
             switch apiType {
             case .bithumb:
-                requestRestTickerAPI()
+                requestBithumbRestTickerAPI()
             case .upbit:
                 requestMarketList()
             }

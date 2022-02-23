@@ -14,7 +14,8 @@ final class FavoriteTickerViewController: UIViewController {
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     private let repository: Repositoryable = Repository()
     private let tickerTableViewDataSource = TickerTableViewDataSource()
-    private let apiType: ApiType = .upbit
+    private var apiType: ApiType = .upbit
+    private var isViewDisplay = false
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -26,14 +27,16 @@ final class FavoriteTickerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        reqeustUpbitRestTickerAPI()
+        reqeustRestTickerAPI()
         activityIndicator.startAnimating()
+        isViewDisplay = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeObserver()
         repository.execute(request: .disconnect)
+        isViewDisplay = false
     }
 }
 
@@ -115,11 +118,11 @@ extension FavoriteTickerViewController {
                 self?.activityIndicator.stopAnimating()
                 self?.tickerTableView.reloadData()
             }
-//            self?.requestUpbitWebSocketTickerAPI(marketList: favoriteCoinSymbols)
+            self?.requestUpbitWebSocketTickerAPI(marketList: favoriteCoinSymbols)
         }
     }
     
-    private func requestRestTickerAPI() {
+    private func requestBithumbRestTickerAPI() {
         let favoriteCoinSymbols = bringFavoriteCoinSymbols()
         var requestResults: [Result<[TickerDTO], RestError>] = []
         let dispatchGroup = DispatchGroup()
@@ -171,6 +174,16 @@ extension FavoriteTickerViewController {
         repository.execute(request: .send(message: .ticker(symbols: symbols)))
     }
     
+    private func reqeustRestTickerAPI() {
+        if apiType == .bithumb {
+            requestBithumbRestTickerAPI()
+        } else if apiType == .upbit {
+            reqeustUpbitRestTickerAPI()
+        } else {
+            return
+        }
+    }
+    
     private func bringFavoriteCoinSymbols() -> [String] {
         guard let favoriteCoinSymbols = UserDefaults.standard.array(forKey: "favoriteCoinSymbols") as? [String] else {
             return []
@@ -181,7 +194,17 @@ extension FavoriteTickerViewController {
 
 extension FavoriteTickerViewController: WebSocketDelegate {
     func didReceive(_ upbitMessageEvent: WebSocketUpbitResponseMessage) {
-        return
+        switch upbitMessageEvent {
+        case .ticker(let tickerDTO):
+            guard let index = tickerTableViewDataSource.update(by: tickerDTO) else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.tickerTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        default:
+            break
+        }
     }
     
     func didReceive(_ connectionEvent: WebSocketConnectionEvent) {
@@ -214,10 +237,29 @@ extension FavoriteTickerViewController: WebSocketDelegate {
 //MARK: - Conform to AppLifeCycleOserverable
 extension FavoriteTickerViewController: AppLifeCycleOserverable {
     func receiveForegoundNotification() {
-        requestRestTickerAPI()
+        requestBithumbRestTickerAPI()
     }
     
     func receiveBackgroundNotification() {
         repository.execute(request: .disconnect)
+    }
+}
+
+//MARK: - Conform to ChagneAPIObservable
+extension FavoriteTickerViewController: changeAPIObserverable {
+    func didRecive(apiType: ApiType) {
+        self.apiType = apiType
+        
+        if isViewDisplay {
+            repository.execute(request: .disconnect)
+            switch apiType {
+            case .bithumb:
+                requestBithumbRestTickerAPI()
+            case .upbit:
+                reqeustUpbitRestTickerAPI()
+            }
+        } else {
+            return
+        }
     }
 }

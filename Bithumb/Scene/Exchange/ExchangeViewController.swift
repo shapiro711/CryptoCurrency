@@ -54,6 +54,7 @@ final class ExchangeViewContorller: SegmentedPagerTabStripViewController {
         changeAPIObservers.append(krwTickerViewController)
         changeAPIObservers.append(btcTickerViewController)
         changeAPIObservers.append(popularityTickerViewController)
+        changeAPIObservers.append(favoritesTickerViewController)
         
         
         krwTickerViewController.register(tickerCriteria: .krw)

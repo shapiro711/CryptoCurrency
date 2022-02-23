@@ -17,6 +17,7 @@ final class ChartViewController: UIViewController {
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     private var symbol: String?
     private let repository: Repositoryable = Repository()
+    private var apiType: ApiType = .upbit
     
     //MARK: LifeCycle
     override func viewDidLoad() {
