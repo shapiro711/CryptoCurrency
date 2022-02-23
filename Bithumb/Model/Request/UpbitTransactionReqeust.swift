@@ -13,7 +13,7 @@ enum UpbitTransactionReqeust {
 
 extension UpbitTransactionReqeust: RestRequestable {
     var apiType: ApiType {
-        .bithumb
+        .upbit
     }
     
     var requestType: RequestType {

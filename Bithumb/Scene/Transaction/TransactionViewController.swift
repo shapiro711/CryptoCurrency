@@ -31,7 +31,7 @@ final class TransactionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        requestUpbitRestTransactionAPI()
+        requestRestTransactionAPI()
         activityIndicator.startAnimating()
     }
     
@@ -109,7 +109,7 @@ extension TransactionViewController {
         }
     }
     
-    private func requestRestTransactionAPI() {
+    private func requestBithumbRestTransactionAPI() {
         guard let symbol = symbol else {
             return
         }
@@ -137,6 +137,16 @@ extension TransactionViewController {
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
+        }
+    }
+    
+    private func requestRestTransactionAPI() {
+        if apiType == .upbit {
+            requestUpbitRestTransactionAPI()
+        } else if apiType == .bithumb {
+            requestBithumbRestTransactionAPI()
+        } else {
+            return
         }
     }
     
