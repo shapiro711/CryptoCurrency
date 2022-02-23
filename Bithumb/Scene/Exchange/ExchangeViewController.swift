@@ -74,6 +74,7 @@ extension ExchangeViewContorller {
         let upbit = UIAction(title: "Upbit", state: .on) { [weak self] _ in
             self?.changeAPIObservers.forEach { $0.didRecive(apiType: .upbit) }
         }
-        selectAPIButton.menu = UIMenu(title: "API 전환", children: [upbit, bithumb])
+        selectAPIButton.menu = UIMenu(title: "거래소 전환", children: [upbit, bithumb])
+        selectAPIButton.translatesAutoresizingMaskIntoConstraints = false
     }
 }
