@@ -61,7 +61,7 @@ extension OrderBookViewController {
         }
         
         let orderBookRequest = UpbitOrderBookRequest.lookUp(market: symbol)
-        repository.execute(request: orderBookRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: orderBookRequest) { [weak self] result in
             switch result {
             case .success(let orderBookDepth):
                 self?.orderBookTableViewDataSource.configure(orderBookDepth: orderBookDepth)
@@ -89,7 +89,7 @@ extension OrderBookViewController {
         }
         
         let orderBookRequest = OrderBookRequest.lookUp(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
-        repository.execute(request: orderBookRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: orderBookRequest) { [weak self] result in
             switch result {
             case .success(let orderBookDepth):
                 self?.orderBookTableViewDataSource.configure(orderBookDepth: orderBookDepth)

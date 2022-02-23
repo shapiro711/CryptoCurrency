@@ -59,7 +59,7 @@ extension TickerViewController {
 extension TickerViewController {
     private func requestMarketList() {
         let marketRequest = UpbitMarketRequest.lookUpAll
-        repository.execute(request: marketRequest, api: apiType) { [weak self] result in
+        repository.execute(request: marketRequest) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -76,7 +76,7 @@ extension TickerViewController {
     
     private func requestRestTickerAPI() {
         let tickerRequest = tickerCriteria.reqeustBasedOnCriteria
-        repository.execute(request: tickerRequest, api: apiType) { [weak self] result in
+        repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
             case .success(var tickers):
                 if self?.tickerCriteria == .popularity {
@@ -88,7 +88,7 @@ extension TickerViewController {
                     self?.tickerTableView.reloadData()
                 }
                 let symbols = tickers.compactMap { $0.symbol }
-//                self?.requestWebSocketTickerAPI(symbols: symbols)
+                self?.requestWebSocketTickerAPI(symbols: symbols)
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
@@ -97,7 +97,7 @@ extension TickerViewController {
     
     private func requestUpbitRestTickerAPI() {
         let tickerRequest = UpbitTickerRequest.lookUpAll(marketList: marketList.map {$0.market})
-        repository.execute(request: tickerRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: tickerRequest) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -220,19 +220,18 @@ extension TickerViewController: UITableViewDelegate {
 //MARK: - Conform to ChagneAPIObservable
 extension TickerViewController: changeAPIObserverable {
     func didRecive(apiType: ApiType) {
-        switch apiType {
-        case .bithumb:
-            self.apiType = .bithumb
-            if isViewDisplay {
-                repository.execute(request: .disconnect)
+        self.apiType = apiType
+        
+        if isViewDisplay {
+            repository.execute(request: .disconnect)
+            switch apiType {
+            case .bithumb:
                 requestRestTickerAPI()
-            }
-        case .upbit:
-            self.apiType = .upbit
-            if isViewDisplay {
-                repository.execute(request: .disconnect)
+            case .upbit:
                 requestMarketList()
             }
+        } else {
+            return
         }
     }
 }

@@ -11,7 +11,7 @@ protocol Repositoryable {
     var restService: RestServiceable { get }
     var webSocketService: WebSocketServiceable { get }
     
-    func execute<Request: RestRequestable>(request: Request, api: ApiType, completion: @escaping (Result<Request.TargetDTO, RestError>) -> Void)
+    func execute<Request: RestRequestable>(request: Request, completion: @escaping (Result<Request.TargetDTO, RestError>) -> Void)
     func execute(request: WebSocketRequest)
     func register(delegate: WebSocketDelegate)
 }
@@ -41,12 +41,12 @@ final class Repository: Repositoryable {
 
 //MARK: - RestAPI Network
 extension Repository {
-    func execute<Request: RestRequestable>(request: Request, api: ApiType, completion: @escaping (Result<Request.TargetDTO, RestError>) -> Void) {
+    func execute<Request: RestRequestable>(request: Request, completion: @escaping (Result<Request.TargetDTO, RestError>) -> Void) {
         guard isInternetConnected() else {
             return completion(.failure(.internetProblem))
         }
         let endPoint = EndPointFactory.makeRestEndPoint(from: request)
-        restService.request(endPoint: endPoint, api: api) { result in
+        restService.request(endPoint: endPoint, api: request.apiType) { result in
             switch result {
             case .success(let data):
                 let parsedResult = request.parser(data)

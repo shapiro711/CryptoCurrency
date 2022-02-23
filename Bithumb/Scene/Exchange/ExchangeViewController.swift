@@ -34,7 +34,6 @@ protocol changeAPIObserverable {
 final class ExchangeViewContorller: SegmentedPagerTabStripViewController {
     @IBOutlet private weak var selectAPIButton: UIButton!
     private var changeAPIObservers: [changeAPIObserverable] = []
-    private var apiType: ApiType = .upbit
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +71,7 @@ extension ExchangeViewContorller {
             self?.changeAPIObservers.forEach { $0.didRecive(apiType: .bithumb) }
         }
         let upbit = UIAction(title: "Upbit", state: .on) { [weak self] _ in
-            self?.changeAPIObservers.forEach { $0.didRecive(apiType: .bithumb) }
+            self?.changeAPIObservers.forEach { $0.didRecive(apiType: .upbit) }
         }
         selectAPIButton.menu = UIMenu(title: "API 전환", children: [upbit, bithumb])
     }

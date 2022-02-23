@@ -84,7 +84,7 @@ extension TransactionViewController {
         }
         
         let transactionRequest = UpbitTransactionReqeust.lookUp(market: symbol)
-        repository.execute(request: transactionRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: transactionRequest) { [weak self] result in
             switch result {
             case .success(var transactions):
                 transactions = transactions.map { (transaction: TransactionDTO) -> TransactionDTO in
@@ -115,7 +115,7 @@ extension TransactionViewController {
         }
         
         let transactionRequest = TransactionRequest.lookUp(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
-        repository.execute(request: transactionRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: transactionRequest) { [weak self] result in
             switch result {
             case .success(var transactions):
                 transactions = transactions.map { (transaction: TransactionDTO) -> TransactionDTO in

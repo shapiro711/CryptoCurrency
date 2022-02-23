@@ -14,7 +14,7 @@ enum TickerRequest {
 
 extension TickerRequest: RestRequestable {
     var apiType: ApiType {
-        .bithumb
+        return .bithumb
     }
     
     var requestType: RequestType {

@@ -147,7 +147,7 @@ extension ExchangeDetailViewController {
         
         let tickerRequest = UpbitTickerRequest.lookUp(market: symbol)
         
-        repository.execute(request: tickerRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
             case .success(let tickers):
                 self?.closingPriceObservers.forEach { $0.didReceive(previousDayClosingPrice: tickers.first?.data.previousDayClosingPrice) }
@@ -172,7 +172,7 @@ extension ExchangeDetailViewController {
         }
         
         let tickerRequest = TickerRequest.lookUp(orderCurrency: orderCurrency, paymentCurrency: paymentCurrency)
-        repository.execute(request: tickerRequest, api: .upbit) { [weak self] result in
+        repository.execute(request: tickerRequest) { [weak self] result in
             switch result {
             case .success(let tickers):
                 self?.closingPriceObservers.forEach { $0.didReceive(previousDayClosingPrice: tickers.first?.data.previousDayClosingPrice) }
