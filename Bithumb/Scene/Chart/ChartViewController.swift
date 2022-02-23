@@ -23,14 +23,13 @@ final class ChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSegmentControl()
-        upbitReqeustRestCandlestickAPI()
         setUpCandlestickChartView()
         setUpBarChartView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        upbitReqeustRestCandlestickAPI()
+        requestRestCandleStickAPI()
         activityIndicator.startAnimating()
     }
     
@@ -50,7 +49,7 @@ extension ChartViewController {
     }
     
     @objc private func touchUpSegmentedControl() {
-        upbitReqeustRestCandlestickAPI()
+        requestRestCandleStickAPI()
     }
     
     private func setUpCandlestickChartView() {
@@ -81,7 +80,7 @@ extension ChartViewController {
 
 //MARK: - Network
 extension ChartViewController {
-    private func upbitReqeustRestCandlestickAPI() {
+    private func reqeustUpbitRestCandlestickAPI() {
         let index = chartIntervalSegmentedControl.selectedSegmentIndex
         let interval = chartIntervalSegmentedControl.titleForSegment(at: index)
         guard let chartInterval = ChartInterval(interval: interval), let symbol = symbol else {
@@ -104,7 +103,7 @@ extension ChartViewController {
         }
     }
     
-    private func reqeustRestCandlestickAPI() {
+    private func reqeustBithumbRestCandlestickAPI() {
         let index = chartIntervalSegmentedControl.selectedSegmentIndex
         let interval = chartIntervalSegmentedControl.titleForSegment(at: index)
         guard let chartInterval = ChartInterval(interval: interval), let symbol = symbol else {
@@ -128,6 +127,16 @@ extension ChartViewController {
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
+        }
+    }
+    
+    func requestRestCandleStickAPI() {
+        if apiType == .upbit {
+            reqeustUpbitRestCandlestickAPI()
+        } else if apiType == .bithumb {
+            reqeustBithumbRestCandlestickAPI()
+        } else {
+            return
         }
     }
 }
@@ -167,7 +176,6 @@ extension ChartViewController {
             self.candlestickChartView.fitScreen()
             
             if let openPrice = data.last?.openPrice, let closingPrice = data.last?.closePrice {
-//                self.candlestickChartView.zoomToCenter(scaleX: 80, scaleY: 20)
                 self.self.candlestickChartView.zoomToCenter(scaleX: 15, scaleY: 5)
                 self.candlestickChartView.moveViewTo(xValue: Double(data.count - 1), yValue: (openPrice + closingPrice) / 2, axis: .right)
             }
@@ -208,11 +216,9 @@ extension ChartViewController {
             self.barChartView.data = chartData
             self.barChartView.fitScreen()
             
-            if let volume = data.last?.volume {
-//                self.barChartView.zoomToCenter(scaleX: 80, scaleY: 20)
-                self.barChartView.zoomToCenter(scaleX: 15, scaleY: 5)
-                self.barChartView.moveViewTo(xValue: Double(data.count - 1), yValue: volume, axis: .right)
-            }
+            self.barChartView.zoomToCenter(scaleX: 15, scaleY: 5)
+            self.barChartView.moveViewTo(xValue: Double(data.count - 1), yValue: 0, axis: .right)
+            
             
             let dateFormatter = self.generateDateFormatter(by: chartInterval)
             self.barChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: data.map { dateFormatter.string(from: $0.date) })
