@@ -106,7 +106,7 @@ Bithumb Public API와 Upbit Public API를 이용하여 가상자산 데이터를
 
 &nbsp;   
 
-### UPbit API 작동 화면
+### Upbit API 작동 화면
 
 |UPbit 작동 화면|
 |:--:|
