@@ -26,6 +26,12 @@ final class TickerTableViewDataSource: NSObject {
         tickerTrends = Array(repeating: .equal, count: tickers.count)
     }
     
+    func reset() {
+        tickers.removeAll()
+        tickerIndexFinder.removeAll()
+        tickerTrends.removeAll()
+    }
+    
     func update(by ticker: TickerDTO) -> Int? {
         guard let symbol = ticker.symbol, let index = self.tickerIndexFinder[symbol] else {
             return nil

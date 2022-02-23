@@ -110,7 +110,15 @@ extension ExchangeDetailViewController {
     }
     
     private func setUpNavigationBarButton() {
-        if let favoriteCoinSymbols = UserDefaults.standard.array(forKey: "favoriteCoinSymbols") as? [String],
+        var favoriteCoinSymbolsKey = ""
+        
+        if apiType == .upbit {
+            favoriteCoinSymbolsKey = "upbitFavoriteCoinSymbols"
+        } else {
+            favoriteCoinSymbolsKey = "bithumbFavoriteCoinSymbols"
+        }
+        
+        if let favoriteCoinSymbols = UserDefaults.standard.array(forKey: favoriteCoinSymbolsKey) as? [String],
            let symbol = symbol,
            favoriteCoinSymbols.contains(symbol) {
             isFavorite = true
@@ -125,7 +133,14 @@ extension ExchangeDetailViewController {
         guard let symbol = symbol else {
             return
         }
-        let favoriteCoinSymbolsKey = "favoriteCoinSymbols"
+        
+        var favoriteCoinSymbolsKey = ""
+        
+        if apiType == .upbit {
+            favoriteCoinSymbolsKey = "upbitFavoriteCoinSymbols"
+        } else {
+            favoriteCoinSymbolsKey = "bithumbFavoriteCoinSymbols"
+        }
         var favoriteCoinSymbols = UserDefaults.standard.array(forKey: favoriteCoinSymbolsKey) as? [String] ?? []
         
         if isFavorite {

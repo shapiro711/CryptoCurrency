@@ -26,17 +26,17 @@ final class FavoriteTickerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        registerObserver()
-        reqeustRestTickerAPI()
-        activityIndicator.startAnimating()
         isViewDisplay = true
+        registerObserver()
+        activityIndicator.startAnimating()
+        reqeustRestTickerAPI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        isViewDisplay = false
         removeObserver()
         repository.execute(request: .disconnect)
-        isViewDisplay = false
     }
 }
 
@@ -66,6 +66,7 @@ extension FavoriteTickerViewController: UITableViewDelegate {
         let symbol = tickerTableViewDataSource.findSymbol(by: indexPath.row)
         let koreanName = tickerTableViewDataSource.findKoreanName(by: indexPath.row)
         
+        exchangeDetailViewController.register(apiType: apiType)
         exchangeDetailViewController.register(symbol: symbol)
         exchangeDetailViewController.register(koreanName: koreanName)
         
@@ -87,6 +88,12 @@ extension FavoriteTickerViewController: UITableViewDelegate {
 extension FavoriteTickerViewController {
     private func reqeustUpbitRestTickerAPI() {
         let favoriteCoinSymbols = bringFavoriteCoinSymbols()
+        if favoriteCoinSymbols.isEmpty {
+            self.tickerTableViewDataSource.reset()
+            self.tickerTableView.reloadData()
+            activityIndicator.stopAnimating()
+            return
+        }
         var requestResults: [Result<[TickerDTO], RestError>] = []
         let dispatchGroup = DispatchGroup()
         
@@ -185,7 +192,13 @@ extension FavoriteTickerViewController {
     }
     
     private func bringFavoriteCoinSymbols() -> [String] {
-        guard let favoriteCoinSymbols = UserDefaults.standard.array(forKey: "favoriteCoinSymbols") as? [String] else {
+        var favoriteCoinKey = ""
+        if apiType == .upbit {
+            favoriteCoinKey = "upbitFavoriteCoinSymbols"
+        } else {
+            favoriteCoinKey = "bithumbFavoriteCoinSymbols"
+        }
+        guard let favoriteCoinSymbols = UserDefaults.standard.array(forKey: favoriteCoinKey) as? [String] else {
             return []
         }
         return favoriteCoinSymbols
