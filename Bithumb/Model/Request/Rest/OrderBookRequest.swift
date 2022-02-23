@@ -12,6 +12,10 @@ enum OrderBookRequest {
 }
 
 extension OrderBookRequest: RestRequestable {
+    var apiType: ApiType {
+        .bithumb
+    }
+    
     var requestType: RequestType {
         return .orderBook
     }

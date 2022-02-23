@@ -64,6 +64,10 @@ enum CandlestickRequest {
 }
 
 extension CandlestickRequest: RestRequestable {
+    var apiType: ApiType {
+        .bithumb
+    }
+    
     var requestType: RequestType {
         return .candlestick
     }

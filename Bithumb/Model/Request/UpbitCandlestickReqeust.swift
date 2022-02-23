@@ -12,6 +12,10 @@ enum UpbitCandlestickReqeust {
 }
 
 extension UpbitCandlestickReqeust: RestRequestable {
+    var apiType: ApiType {
+        .upbit
+    }
+    
     var requestType: RequestType {
         return .ticker
     }

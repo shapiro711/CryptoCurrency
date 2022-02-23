@@ -12,6 +12,10 @@ enum TransactionRequest {
 }
 
 extension TransactionRequest: RestRequestable {
+    var apiType: ApiType {
+        .bithumb
+    }
+    
     var requestType: RequestType {
         return .transaction
     }

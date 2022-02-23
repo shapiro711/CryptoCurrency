@@ -12,6 +12,10 @@ enum AssetsStatusRequest {
 }
 
 extension AssetsStatusRequest: RestRequestable {
+    var apiType: ApiType {
+        .bithumb
+    }
+    
     var requestType: RequestType {
         return .assetStatus
     }

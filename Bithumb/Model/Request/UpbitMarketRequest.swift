@@ -12,6 +12,10 @@ enum UpbitMarketRequest {
 }
 
 extension UpbitMarketRequest: RestRequestable {
+    var apiType: ApiType {
+        .upbit
+    }
+    
     var requestType: RequestType {
         return .ticker
     }

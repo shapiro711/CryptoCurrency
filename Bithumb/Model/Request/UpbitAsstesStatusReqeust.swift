@@ -12,6 +12,10 @@ enum UpbitAsstesStatusReqeust {
 }
 
 extension UpbitAsstesStatusReqeust: RestRequestable {
+    var apiType: ApiType {
+        .upbit
+    }
+    
     var requestType: RequestType {
         return .transaction
     }

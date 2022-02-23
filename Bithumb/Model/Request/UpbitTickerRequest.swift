@@ -13,6 +13,10 @@ enum UpbitTickerRequest {
 }
 
 extension UpbitTickerRequest: RestRequestable {
+    var apiType: ApiType {
+        .upbit
+    }
+    
     var requestType: RequestType {
         return .ticker
     }

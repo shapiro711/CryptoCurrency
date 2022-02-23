@@ -53,10 +53,6 @@ protocol RestRequestable {
 }
 
 extension RestRequestable {
-    var apiType: ApiType {
-        return .upbit
-    }
-    
     var basicPath: String {
         switch apiType {
         case .bithumb:
