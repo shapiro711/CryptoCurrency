@@ -69,7 +69,7 @@ extension RestTicker {
         }
         
         return TickerDTO(symbol: symbol, data: .init(currentPrice: closePrice,
-                                                     rateOfChange: rateOfChange,
+                                                     rateOfChange: (rateOfChange ?? 0) * 100,
                                                      amountOfChange: amountOfChange,
                                                      accumulatedTransactionAmount: accumulatedTransactionAmountMidnight,
                                                      previousDayClosingPrice: previousDayClosingPrice))
