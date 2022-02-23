@@ -83,7 +83,7 @@ Bithumb Public API와 Upbit Public API를 이용하여 가상자산 데이터를
 
 |Upbit, Bithumb API 전환|
 |:--:|
-|<img width="200" alt="api 전환" src="https://user-images.githubusercontent.com/57553889/155337889-db2cc946-d9c3-42fe-b207-364dd8e07ad7.gif">|
+|<img width="200" alt="api 전환" src="https://user-images.githubusercontent.com/57553889/155346556-28dd8baf-8b97-444e-95ae-6bc76b587206.gif">|
 
 &nbsp; 
 
