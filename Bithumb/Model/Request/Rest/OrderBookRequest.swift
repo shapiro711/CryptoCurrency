@@ -8,7 +8,7 @@
 import Foundation
 
 enum OrderBookRequest {
-    case lookUp(orderCurrency: String = "BTC", paymentCurrency: String = "KRW", listCount: Int = 30)
+    case lookUp(orderCurrency: String = "BTC", paymentCurrency: String = "KRW", listCount: Int = 15)
 }
 
 extension OrderBookRequest: RestRequestable {

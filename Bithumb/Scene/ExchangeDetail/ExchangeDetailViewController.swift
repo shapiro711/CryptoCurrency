@@ -45,7 +45,7 @@ final class ExchangeDetailViewController: ButtonBarPagerTabStripViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        reqeustUpbitRestTickerAPI()
+        requestRestTickerAPI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -78,8 +78,11 @@ final class ExchangeDetailViewController: ButtonBarPagerTabStripViewController {
               }
         
         orderBookViewController.register(symbol: symbol)
+        orderBookViewController.register(apiType: apiType)
         transactionViewController.register(symbol: symbol)
+        transactionViewController.register(apiType: apiType)
         chartViewController.register(symbol: symbol)
+        chartViewController.register(apiType: apiType)
         
         return [orderBookViewController, chartViewController, transactionViewController]
     }
@@ -165,7 +168,7 @@ extension ExchangeDetailViewController {
         }
     }
     
-    private func requestRestTickerAPI() {
+    private func requestBithumbRestTickerAPI() {
         guard let symbol = symbol else {
             return
         }
@@ -199,6 +202,16 @@ extension ExchangeDetailViewController {
     private func requestWebSocketTickerAPI(symbol: String) {
         repository.execute(request: .connect(target: .bitumbPublic))
         repository.execute(request: .send(message: .ticker(symbols: [symbol])))
+    }
+    
+    private func requestRestTickerAPI() {
+        if self.apiType == .bithumb {
+            requestBithumbRestTickerAPI()
+        } else if apiType == .upbit {
+            reqeustUpbitRestTickerAPI()
+        } else {
+            return
+        }
     }
 }
 
@@ -243,7 +256,7 @@ extension ExchangeDetailViewController: WebSocketDelegate {
 //MARK: - Conform to AppLifeCycleOserverable
 extension ExchangeDetailViewController: AppLifeCycleOserverable {
     func receiveForegoundNotification() {
-        requestRestTickerAPI()
+        requestBithumbRestTickerAPI()
     }
     
     func receiveBackgroundNotification() {

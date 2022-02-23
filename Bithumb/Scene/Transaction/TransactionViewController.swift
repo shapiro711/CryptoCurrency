@@ -44,6 +44,10 @@ final class TransactionViewController: UIViewController {
     func register(symbol: String?) {
         self.symbol = symbol
     }
+    
+    func register(apiType: ApiType) {
+        self.apiType = apiType
+    }
 }
 
 //MARK: - SetUp UI

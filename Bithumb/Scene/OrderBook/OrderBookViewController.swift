@@ -28,7 +28,7 @@ final class OrderBookViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerObserver()
-        reqeustUpbitRestOrderBookAPI()
+        reqeustRestOrderBookAPI()
         activityIndicator.startAnimating()
     }
     
@@ -40,6 +40,10 @@ final class OrderBookViewController: UIViewController {
     
     func register(symbol: String?) {
         self.symbol = symbol
+    }
+    
+    func register(apiType: ApiType) {
+        self.apiType = apiType
     }
 }
 
@@ -78,7 +82,7 @@ extension OrderBookViewController {
         }
     }
     
-    private func requestRestOrderBookAPI() {
+    private func requestBithumbRestOrderBookAPI() {
         guard let symbol = symbol else {
             return
         }
@@ -103,6 +107,16 @@ extension OrderBookViewController {
             case .failure(let error):
                 UIAlertController.showAlert(about: error, on: self)
             }
+        }
+    }
+    
+    func reqeustRestOrderBookAPI() {
+        if apiType == .upbit {
+            reqeustUpbitRestOrderBookAPI()
+        } else if apiType == .bithumb {
+            requestBithumbRestOrderBookAPI()
+        } else {
+            return
         }
     }
     
@@ -168,7 +182,7 @@ extension OrderBookViewController: IndicatorInfoProvider {
 //MARK: - Conform to AppLifeCycleOserverable
 extension OrderBookViewController: AppLifeCycleOserverable {
     func receiveForegoundNotification() {
-        requestRestOrderBookAPI()
+        reqeustRestOrderBookAPI()
     }
     
     func receiveBackgroundNotification() {
