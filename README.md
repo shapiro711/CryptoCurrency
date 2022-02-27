@@ -6,7 +6,7 @@
 
 ## 🔥 프로젝트 기간 고민한 내용
 
-### [아래 문제들에 대한 Trouble Shooting 바로보기](https://coden.notion.site/Bithumb-Project-14bd7bab4a3742918789784a85ac1050)
+### [아래 문제들에 대한 Trouble Shooting 바로보기](https://bloom-digestion-568.notion.site/f0e87fac7c1447b0baa7b9fcc152eb3a)
 
 1. Rest 통신의 결과 값 타입 문제
 2. Ticker 업데이트 문제
